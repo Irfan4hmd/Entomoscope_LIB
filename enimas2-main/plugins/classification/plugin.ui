@@ -1,0 +1,642 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>571</width>
+    <height>692</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Batch Classification</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>551</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="styleSheet">
+        <string notr="true">QGroupBox {
+    background-color: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    margin-top: 20px;
+    padding: 10px;
+}
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    padding: 2px 10px;
+    color: #222;
+    font-style: italic;
+    font-size: 14px;
+}
+</string>
+       </property>
+       <property name="title">
+        <string>Models</string>
+       </property>
+       <widget class="QWidget" name="horizontalLayoutWidget_2">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>20</y>
+          <width>531</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="CheckableComboBox" name="cmbModels">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QComboBox {
+    border: 1px solid #CCCCCC;
+    border-radius: 6px;
+    background-color: #FFFFFF;
+    font-size: 14px;
+    color: #333333;
+}
+
+QComboBox:hover {
+    border-color: #888888;
+}</string>
+           </property>
+           <property name="currentText">
+            <string/>
+           </property>
+           <property name="placeholderText">
+            <string>Select Model</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="AddModelButton">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>7</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton{
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #F0F0F0, stop: 0.8 #DCDCDC,
+                                stop: 0.9 #DCDCDC, stop: 1.0 #C9C9C9);
+	border-width: 1;
+	border-radius: 10px;
+	border-style: solid;
+	border-color: rgb(201, 201, 201);
+	padding: 4px;
+}
+
+QPushButton:hover{
+	border-color: rgb(128, 128, 128); /*rgb(0, 145, 117)*/
+	background-color: rgb(128, 128, 128);
+	color: white;
+}</string>
+           </property>
+           <property name="text">
+            <string>Add Model</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>551</width>
+      <height>311</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox {
+    background-color: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    margin-top: 20px;
+    padding: 10px;
+}
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    padding: 2px 10px;
+    color: #222;
+    font-style: italic;
+    font-size: 14px;
+}</string>
+    </property>
+    <property name="title">
+     <string>Input</string>
+    </property>
+    <widget class="QWidget" name="horizontalLayoutWidget_3">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>531</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <widget class="QLineEdit" name="InputPathLineEdit">
+        <property name="acceptDrops">
+         <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLineEdit {
+    border: 1px solid #CCCCCC;
+    border-radius: 6px;
+    background-color: #FFFFFF;
+    font-size: 14px;
+    color: #333333;
+}
+
+QLineEdit:hover {
+    border-color: #888888;
+}</string>
+        </property>
+        <property name="placeholderText">
+         <string>Select input folder</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="InputBrowseButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>7</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #F0F0F0, stop: 0.8 #DCDCDC,
+                                stop: 0.9 #DCDCDC, stop: 1.0 #C9C9C9);
+	border-width: 1;
+	border-radius: 10px;
+	border-style: solid;
+	border-color: rgb(201, 201, 201);
+	padding: 4px;
+}
+
+QPushButton:hover{
+	border-color: rgb(128, 128, 128); /*rgb(0, 145, 117)*/
+	background-color: rgb(128, 128, 128);
+	color: white;
+}</string>
+        </property>
+        <property name="text">
+         <string>   Browse  </string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QFrame" name="DragDropArea">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>110</y>
+       <width>281</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="acceptDrops">
+      <bool>true</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QFrame#DragDropArea{
+    background-color: #FFFFFF;       
+    border: 2px dashed #B0B0B0;     
+    border-radius: 6px;              
+}
+
+QFrame#DragDropArea:hover {
+    background-color: #F5F5F5;       
+    border: 2px dashed #909090;      
+}</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>50</y>
+        <width>221</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel#dragHintLabel {
+    color: rgba(85, 85, 85, 180);   
+    qproperty-alignment: AlignCenter; 
+    background: transparent;     
+	border: none    
+}</string>
+      </property>
+      <property name="text">
+       <string>Drop image or folder here. Please choose whether to include subfolders before dropping your folder.</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QPushButton" name="ImageClearButton">
+     <property name="geometry">
+      <rect>
+       <x>470</x>
+       <y>280</y>
+       <width>71</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>7</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #F0F0F0, stop: 0.8 #DCDCDC,
+                                stop: 0.9 #DCDCDC, stop: 1.0 #C9C9C9);
+	border-width: 1;
+	border-radius: 10px;
+	border-style: solid;
+	border-color: rgb(201, 201, 201);
+	padding: 4px;
+}
+
+QPushButton:hover{
+	border-color: rgb(128, 128, 128); /*rgb(0, 145, 117)*/
+	background-color: rgb(128, 128, 128);
+	color: white;
+}</string>
+     </property>
+     <property name="text">
+      <string>Clear</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBoxIncludeSubdirs">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>111</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border: 1px solid gray;
+background-color: rgb(255, 255, 255);
+border-radius: 4px;
+padding: 2px;</string>
+     </property>
+     <property name="text">
+      <string>Read Subfolders</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>390</y>
+      <width>551</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox {
+    background-color: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    margin-top: 20px;
+    padding: 10px;
+}
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    padding: 2px 10px;
+    color: #222;
+    font-style: italic;
+    font-size: 14px;
+}</string>
+    </property>
+    <property name="title">
+     <string>Output</string>
+    </property>
+    <widget class="QWidget" name="horizontalLayoutWidget_4">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>531</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <item>
+       <widget class="QLineEdit" name="OutputPathLineEdit">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="acceptDrops">
+         <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLineEdit {
+    border: 1px solid #CCCCCC;
+    border-radius: 6px;
+    background-color: #FFFFFF;
+    font-size: 14px;
+    color: #333333;
+}
+
+QLineEdit:hover {
+    border-color: #888888;
+}</string>
+        </property>
+        <property name="placeholderText">
+         <string>Select output folder</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="OutputBrowseButton">
+        <property name="font">
+         <font>
+          <pointsize>7</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #F0F0F0, stop: 0.8 #DCDCDC,
+                                stop: 0.9 #DCDCDC, stop: 1.0 #C9C9C9);
+	border-width: 1;
+	border-radius: 10px;
+	border-style: solid;
+	border-color: rgb(201, 201, 201);
+	padding: 4px;
+}
+
+QPushButton:hover{
+	border-color: rgb(128, 128, 128); /*rgb(0, 145, 117)*/
+	background-color: rgb(128, 128, 128);
+	color: white;
+}</string>
+        </property>
+        <property name="text">
+         <string>   Browse  </string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_4">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>460</y>
+      <width>551</width>
+      <height>181</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox {
+    background-color: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    margin-top: 20px;
+    padding: 10px;
+}
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    padding: 2px 10px;
+    color: #222;
+    font-style: italic;
+    font-size: 14px;
+}</string>
+    </property>
+    <property name="title">
+     <string>Action &amp; Progress</string>
+    </property>
+    <widget class="QWidget" name="verticalLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>9</x>
+       <y>30</y>
+       <width>531</width>
+       <height>141</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QComboBox" name="VariantCombo">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QComboBox {
+    border: 1px solid #CCCCCC;
+    border-radius: 6px;
+    background-color: #FFFFFF;
+    font-size: 14px;
+    color: #333333;
+}
+
+QComboBox:hover {
+    border-color: #888888;
+}</string>
+          </property>
+          <property name="editable">
+           <bool>false</bool>
+          </property>
+          <property name="currentText">
+           <string/>
+          </property>
+          <property name="placeholderText">
+           <string>Select input image variant</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="StartButton">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>7</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #F0F0F0, stop: 0.8 #DCDCDC,
+                                stop: 0.9 #DCDCDC, stop: 1.0 #C9C9C9);
+	border-width: 1;
+	border-radius: 10px;
+	border-style: solid;
+	border-color: rgb(201, 201, 201);
+	padding: 4px;
+}
+
+QPushButton:hover{
+	border-color: rgb(128, 128, 128); /*rgb(0, 145, 117)*/
+	background-color: rgb(128, 128, 128);
+	color: white;
+}</string>
+          </property>
+          <property name="text">
+           <string>Start Classification</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QProgressBar" name="progressBar">
+        <property name="styleSheet">
+         <string notr="true">QProgressBar {
+	border-width: 1;
+	border-radius: 3px;
+	border-style: solid;
+	border-color: rgb(201, 201, 201);
+	text-align: center;
+	background-color: #F5F5F5;
+}
+
+QProgressBar::chunk {
+	background-color: qlineargradient(x1:0, y1:0, x2:0.5, y2:0, stop:0 #F0F0F0, stop:1 rgb(0, 145, 117));
+}</string>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="StatusLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Waiting for input..</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>571</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CheckableComboBox</class>
+   <extends>QComboBox</extends>
+   <header>UserInterface.checkable_combo_box</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

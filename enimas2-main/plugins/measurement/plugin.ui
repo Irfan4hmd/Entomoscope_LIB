@@ -1,0 +1,711 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>636</width>
+    <height>712</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>Automatic Measurement</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <property name="sizeConstraint">
+     <enum>QLayout::SetDefaultConstraint</enum>
+    </property>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QGroupBox" name="InputGroupBox">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QGroupBox {
+    background-color: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    margin-top: 20px;
+    padding: 10px;
+}
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    padding: 2px 10px;
+    color: #222;
+    font-style: italic;
+    font-size: 14px;
+}</string>
+        </property>
+        <property name="title">
+         <string>Input Images</string>
+        </property>
+        <widget class="QWidget" name="verticalLayoutWidget_2">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>60</y>
+           <width>591</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QLineEdit" name="InputPathLineEdit">
+            <property name="acceptDrops">
+             <bool>false</bool>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLineEdit {
+    border: 1px solid #CCCCCC;
+    border-radius: 6px;
+    background-color: #FFFFFF;
+    font-size: 14px;
+    color: #333333;
+}
+
+QLineEdit:hover {
+    border-color: #888888;
+}</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+            <property name="placeholderText">
+             <string>Select input folder or drag images in the box below</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="BrowseInputButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>7</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton{
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #F0F0F0, stop: 0.8 #DCDCDC,
+                                stop: 0.9 #DCDCDC, stop: 1.0 #C9C9C9);
+	border-width: 1;
+	border-radius: 10px;
+	border-style: solid;
+	border-color: rgb(201, 201, 201);
+	padding: 4px;
+}
+
+QPushButton:hover{
+	border-color: rgb(128, 128, 128); /*rgb(0, 145, 117)*/
+	background-color: rgb(128, 128, 128);
+	color: white;
+}</string>
+            </property>
+            <property name="text">
+             <string>    Browse    </string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QFrame" name="DragDropArea">
+         <property name="geometry">
+          <rect>
+           <x>170</x>
+           <y>110</y>
+           <width>281</width>
+           <height>231</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="acceptDrops">
+          <bool>true</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QFrame#DragDropArea{
+    background-color: #FFFFFF;       
+    border: 2px dashed #B0B0B0;     
+    border-radius: 6px;              
+}
+
+QFrame#DragDropArea:hover {
+    background-color: #F5F5F5;       
+    border: 2px dashed #909090;      
+}</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <widget class="QLabel" name="label">
+          <property name="geometry">
+           <rect>
+            <x>20</x>
+            <y>69</y>
+            <width>241</width>
+            <height>81</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>8</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Drop image or folder here. Please choose whether to include subfolders before dropping your folder.</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QPushButton" name="ImageClearButton">
+         <property name="geometry">
+          <rect>
+           <x>480</x>
+           <y>300</y>
+           <width>75</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>7</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #F0F0F0, stop: 0.8 #DCDCDC,
+                                stop: 0.9 #DCDCDC, stop: 1.0 #C9C9C9);
+	border-width: 1;
+	border-radius: 10px;
+	border-style: solid;
+	border-color: rgb(201, 201, 201);
+	padding: 4px;
+}
+
+QPushButton:hover{
+	border-color: rgb(128, 128, 128); /*rgb(0, 145, 117)*/
+	background-color: rgb(128, 128, 128);
+	color: white;
+}</string>
+         </property>
+         <property name="text">
+          <string>Clear</string>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="checkBoxIncludeSubdirs">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>30</y>
+           <width>121</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border: 1px solid gray;
+background-color: rgb(255, 255, 255);
+border-radius: 4px;
+padding: 2px;</string>
+         </property>
+         <property name="text">
+          <string>Read subfolders</string>
+         </property>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="SettingsGroupBox">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>140</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QGroupBox {
+    background-color: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    margin-top: 20px;
+    padding: 10px;
+}
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    padding: 2px 10px;
+    color: #222;
+    font-style: italic;
+    font-size: 14px;
+}</string>
+      </property>
+      <property name="title">
+       <string>Settings</string>
+      </property>
+      <widget class="QWidget" name="horizontalLayoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>591</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="CameraLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>7</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Camera: </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="CameraComboBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QComboBox {
+    border: 1px solid #CCCCCC;
+    border-radius: 6px;
+    background-color: #FFFFFF;
+    font-size: 14px;
+    color: #333333;
+}
+
+QComboBox:hover {
+    border-color: #888888;
+}</string>
+          </property>
+          <property name="editable">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="horizontalLayoutWidget_2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>60</y>
+         <width>591</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLabel" name="LensLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>7</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Lens: </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="LensComboBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QComboBox {
+    border: 1px solid #CCCCCC;
+    border-radius: 6px;
+    background-color: #FFFFFF;
+    font-size: 14px;
+    color: #333333;
+}
+
+QComboBox:hover {
+    border-color: #888888;
+}</string>
+          </property>
+          <property name="editable">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="ScaleLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>7</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Scale: </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="scaleLineEdit">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="horizontalLayoutWidget_3">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>100</y>
+         <width>591</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QLineEdit" name="OutputPathLineEdit">
+          <property name="acceptDrops">
+           <bool>false</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
+    border: 1px solid #CCCCCC;
+    border-radius: 6px;
+    background-color: #FFFFFF;
+    font-size: 14px;
+    color: #333333;
+}
+
+QLineEdit:hover {
+    border-color: #888888;
+}</string>
+          </property>
+          <property name="placeholderText">
+           <string>Select output folder to save result</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="BrowseOutputButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>7</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #F0F0F0, stop: 0.8 #DCDCDC,
+                                stop: 0.9 #DCDCDC, stop: 1.0 #C9C9C9);
+	border-width: 1;
+	border-radius: 10px;
+	border-style: solid;
+	border-color: rgb(201, 201, 201);
+	padding: 4px;
+}
+
+QPushButton:hover{
+	border-color: rgb(128, 128, 128); /*rgb(0, 145, 117)*/
+	background-color: rgb(128, 128, 128);
+	color: white;
+}</string>
+          </property>
+          <property name="text">
+           <string>    Browse    </string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="ActionGroupBox">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>140</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QGroupBox {
+    background-color: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    margin-top: 20px;
+    padding: 10px;
+}
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    padding: 2px 10px;
+    color: #222;
+    font-style: italic;
+    font-size: 14px;
+}</string>
+      </property>
+      <property name="title">
+       <string>Action &amp; Progress</string>
+      </property>
+      <widget class="QWidget" name="horizontalLayoutWidget_4">
+       <property name="geometry">
+        <rect>
+         <x>220</x>
+         <y>30</y>
+         <width>161</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QPushButton" name="MeasureButton">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>7</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #F0F0F0, stop: 0.8 #DCDCDC,
+                                stop: 0.9 #DCDCDC, stop: 1.0 #C9C9C9);
+	border-width: 1;
+	border-radius: 10px;
+	border-style: solid;
+	border-color: rgb(201, 201, 201);
+	padding: 4px;
+}
+
+QPushButton:hover{
+	border-color: rgb(128, 128, 128); /*rgb(0, 145, 117)*/
+	background-color: rgb(128, 128, 128);
+	color: white;
+}</string>
+          </property>
+          <property name="text">
+           <string>Start Measurement</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="horizontalLayoutWidget_5">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>69</y>
+         <width>591</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <item>
+         <widget class="QLabel" name="ProgressLabel">
+          <property name="font">
+           <font>
+            <pointsize>7</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Progress: </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QProgressBar" name="progressBar">
+          <property name="styleSheet">
+           <string notr="true">QProgressBar {
+	border-width: 1;
+	border-radius: 3px;
+	border-style: solid;
+	border-color: rgb(201, 201, 201);
+	text-align: center;
+	background-color: #F5F5F5;
+}
+
+QProgressBar::chunk {
+	background-color: qlineargradient(x1:0, y1:0, x2:0.5, y2:0, stop:0 #F0F0F0, stop:1 rgb(0, 145, 117));
+}</string>
+          </property>
+          <property name="value">
+           <number>0</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QLabel" name="StatusLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>110</y>
+         <width>601</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>7</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Ready</string>
+       </property>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>636</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>BottomToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

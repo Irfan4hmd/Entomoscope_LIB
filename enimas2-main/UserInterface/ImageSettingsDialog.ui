@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>611</width>
+    <height>408</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ImageSettingsDialog</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QWidget" name="horizontalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>19</y>
+     <width>591</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QCheckBox" name="ScaleBarCheckBox">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Segoe UI</family>
+        <pointsize>9</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">/* 1. 增大 indicator 尺寸 */
+QCheckBox {
+    spacing: 8px;   /* 文字与勾选框之间留更多空隙，否则文字会太贴近 */
+	background-color: #F5F5F5;    
+	border: 1px solid #D0D0D0;
+	border-radius: 6px;
+	padding: 10px;
+}
+
+/* 普通状态（未选中）下的勾选框 */
+QCheckBox::indicator:unchecked {
+    width: 24px;
+    height: 24px;
+    border: 1px solid #B0B0B0;
+    border-radius: 6px;     /* 圆角可根据需求改大或改小 */   
+}
+
+/* 鼠标悬停在未选中状态时给个微弱高亮 */
+QCheckBox::indicator:unchecked:hover {
+    border: 1px solid #909090;
+	background-color: rgb(240, 240, 240)
+}
+
+QCheckBox::indicator:checked {
+    width: 24px;
+    height: 24px;
+}
+
+/* 选中状态下的悬停效果 */
+QCheckBox::indicator:checked:hover {
+    background-color: #777777;
+}
+</string>
+      </property>
+      <property name="text">
+       <string>Enable Drawing Scale Bar</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>200</y>
+     <width>591</width>
+     <height>131</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QGroupBox {
+    background-color: #F5F5F5;       
+    border: 1px solid #D0D0D0;      
+    border-radius: 6px;              
+    padding: 10px;                   
+}
+</string>
+   </property>
+   <property name="title">
+    <string>Uniform Background Feature</string>
+   </property>
+   <widget class="QCheckBox" name="UniformBGCheckBox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>571</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+      <pointsize>9</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">/* 1. 增大 indicator 尺寸 */
+QCheckBox {
+    spacing: 8px;   /* 文字与勾选框之间留更多空隙，否则文字会太贴近 */
+	background-color: #F5F5F5;   
+	border: 1px solid #D0D0D0; 
+	border-radius: 4px;
+}
+
+/* 普通状态（未选中）下的勾选框 */
+QCheckBox::indicator:unchecked {
+    width: 24px;
+    height: 24px;
+    border: 1px solid #B0B0B0;
+    border-radius: 4px;     /* 圆角可根据需求改大或改小 */   
+}
+
+/* 鼠标悬停在未选中状态时给个微弱高亮 */
+QCheckBox::indicator:unchecked:hover {
+    border: 1px solid #909090;
+	background-color: rgb(240, 240, 240)
+}
+
+QCheckBox::indicator:checked {
+    width: 24px;
+    height: 24px;
+}
+
+/* 选中状态下的悬停效果 */
+QCheckBox::indicator:checked:hover {
+    background-color: #777777;
+}
+</string>
+    </property>
+    <property name="text">
+     <string>Uniform Background (Long processing time, use only if necesssary)</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>70</y>
+      <width>571</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>9</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string>Select Color:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="comboBox">
+       <property name="styleSheet">
+        <string notr="true">QComboBox {
+    border: 1px solid #B0B0B0;
+    border-radius: 5px;
+    font-size: 10pt;
+    background-color: #FFFFFF;    /* 白底 */
+}
+QComboBox:hover {
+    border: 1px solid #909090;
+}
+QComboBox:focus {
+    border: 1px solid #606060;    /* 获取焦点时更深的灰色 */
+}
+
+/* 下拉列表项 */
+QComboBox QAbstractItemView {
+    border: 1px solid #B0B0B0;
+    background-color: #FFFFFF;
+    selection-background-color: #E0E0E0; /* 选中时浅灰 */
+    selection-color: #333333;
+}</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>330</y>
+     <width>591</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_4">
+    <item>
+     <widget class="QLabel" name="StatusLable">
+      <property name="font">
+       <font>
+        <family>Segoe UI</family>
+        <pointsize>9</pointsize>
+        <weight>75</weight>
+        <italic>true</italic>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel {
+    background: transparent;       
+    border: none;                  
+    color: #555555;                
+    font-family: &quot;Segoe UI&quot;, &quot;Roboto&quot;, sans-serif;
+    font-size: 9pt;
+    font-style: italic;           
+    padding: 2px 0px;             
+}</string>
+      </property>
+      <property name="text">
+       <string>Scale Bar: Off; Cropping: Off; Uniform BG: Off</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="horizontalLayoutWidget_4">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>370</y>
+     <width>231</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_5">
+    <item>
+     <widget class="QPushButton" name="okButton">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #F0F0F0, stop: 0.8 #DCDCDC,
+                                stop: 0.9 #DCDCDC, stop: 1.0 #C9C9C9);
+	border-width: 1;
+	border-radius: 10px;
+	border-style: solid;
+	border-color: rgb(201, 201, 201);
+	padding: 4px;
+}
+
+QPushButton:hover{
+	border-color: rgb(128, 128, 128); /*rgb(0, 145, 117)*/
+	background-color: rgb(128, 128, 128);
+	color: white;
+}</string>
+      </property>
+      <property name="text">
+       <string>Ok</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="cancelButton">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #F0F0F0, stop: 0.8 #DCDCDC,
+                                stop: 0.9 #DCDCDC, stop: 1.0 #C9C9C9);
+	border-width: 1;
+	border-radius: 10px;
+	border-style: solid;
+	border-color: rgb(201, 201, 201);
+	padding: 4px;
+}
+
+QPushButton:hover{
+	border-color: rgb(128, 128, 128); /*rgb(0, 145, 117)*/
+	background-color: rgb(128, 128, 128);
+	color: white;
+}</string>
+      </property>
+      <property name="text">
+       <string>Cancel</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>70</y>
+     <width>591</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QGroupBox {
+    background-color: #F5F5F5;       
+    border: 1px solid #D0D0D0;      
+    border-radius: 6px;              
+    padding: 10px;                   
+}
+</string>
+   </property>
+   <property name="title">
+    <string>Cropping Feature</string>
+   </property>
+   <widget class="QCheckBox" name="checkBox_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>17</y>
+      <width>571</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">/* 1. 增大 indicator 尺寸 */
+QCheckBox {
+    spacing: 8px;   /* 文字与勾选框之间留更多空隙，否则文字会太贴近 */
+	background-color: #F5F5F5;   
+	border: 1px solid #D0D0D0; 
+	border-radius: 4px;
+}
+
+/* 普通状态（未选中）下的勾选框 */
+QCheckBox::indicator:unchecked {
+    width: 24px;
+    height: 24px;
+    border: 1px solid #B0B0B0;
+    border-radius: 4px;     /* 圆角可根据需求改大或改小 */   
+}
+
+/* 鼠标悬停在未选中状态时给个微弱高亮 */
+QCheckBox::indicator:unchecked:hover {
+    border: 1px solid #909090;
+	background-color: rgb(240, 240, 240)
+}
+
+QCheckBox::indicator:checked {
+    width: 24px;
+    height: 24px;
+}
+
+/* 选中状态下的悬停效果 */
+QCheckBox::indicator:checked:hover {
+    background-color: #777777;
+}
+</string>
+    </property>
+    <property name="text">
+     <string>Cropping</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>70</y>
+      <width>571</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Select Model:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="comboBox_cropping">
+       <property name="styleSheet">
+        <string notr="true">QComboBox {
+    border: 1px solid #B0B0B0;
+    border-radius: 5px;
+    font-size: 10pt;
+    background-color: #FFFFFF;    /* 白底 */
+}
+QComboBox:hover {
+    border: 1px solid #909090;
+}
+QComboBox:focus {
+    border: 1px solid #606060;    /* 获取焦点时更深的灰色 */
+}
+
+/* 下拉列表项 */
+QComboBox QAbstractItemView {
+    border: 1px solid #B0B0B0;
+    background-color: #FFFFFF;
+    selection-background-color: #E0E0E0; /* 选中时浅灰 */
+    selection-color: #333333;
+}</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

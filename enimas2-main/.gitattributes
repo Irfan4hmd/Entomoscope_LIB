@@ -1,0 +1,4 @@
+OBB/yolov8m_obb3_best.onnx filter=lfs diff=lfs merge=lfs -text
+camera-driver/Vaimaging/Galaxy_Windows_EN_32bits-64bits_2.3.2410.9292.exe filter=lfs diff=lfs merge=lfs -text
+# Windows cmd label traversal is unreliable for LF-only raw downloads.
+*.bat -text whitespace=cr-at-eol

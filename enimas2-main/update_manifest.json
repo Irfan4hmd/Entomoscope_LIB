@@ -1,0 +1,1731 @@
+{
+  "archive_files": [
+    {
+      "path": ".gitattributes",
+      "sha256": "570826e6abacdcf26b19c9fcf50c3e1a521bfd0818052fa1d468e3e47daa8ad7",
+      "size": 277
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "e51386b76638364a493b2133c5e3707eb9e8aa9bf55d24117dd6de107ae91c65",
+      "size": 6098
+    },
+    {
+      "path": "3D_printed_parts/3D_printed_parts_3mf.zip",
+      "sha256": "af880e08c3091c65da1de05ca4fc14227d857af629573fbb163a18a1829a9f81",
+      "size": 3950687
+    },
+    {
+      "path": "Arducam/Arducam.py",
+      "sha256": "d586a42099f50232ec8d09f6005a53850dd7ec30e173b1e91938f332dabdd206",
+      "size": 12185
+    },
+    {
+      "path": "Arducam/IMX477_2Lane_4032x3040_RAW8_A.cfg",
+      "sha256": "43753b6463b9cc3458c9eb54f5aae6c0ff6c7f0387b0d0688d35327063695d18",
+      "size": 17059
+    },
+    {
+      "path": "Arducam/ImageConvert.py",
+      "sha256": "e8da9986185aa6ff8dc3673449adb7d8b325b47059f88be7194cd63204c32ef6",
+      "size": 3593
+    },
+    {
+      "path": "Arducam/utils.py",
+      "sha256": "cb61e990034ecb3a413fddfc332d72f69dbdbdc16a56c7ddaf582600adf1783f",
+      "size": 4243
+    },
+    {
+      "path": "Background_remover/background_remover.py",
+      "sha256": "e666af5ec6583cf359d8b3566a248ef394021845cc415e344645c9ebf3011962",
+      "size": 10651
+    },
+    {
+      "path": "Background_remover/data_util.py",
+      "sha256": "ba248d5cc30d7f11b53258ba363786a0c6ae15002fa52f3889af4e27a5ec680f",
+      "size": 7052
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "722dfe4f6d9436466cf3574cafafaed5519fc9a1d01a88505c406aa92bcfa629",
+      "size": 22000
+    },
+    {
+      "path": "CLASSIFICATION_MODEL_GUIDE.md",
+      "sha256": "5183317fd7d0c19c06ac56a9a9c0595f7fc90035b9eb31042f36d35644967a8c",
+      "size": 22664
+    },
+    {
+      "path": "CLASSIFICATION_MODEL_GUIDE.pdf",
+      "sha256": "d526c17e900e32de3fe8c29c69551905f3ad35135c0742836879808f488be50d",
+      "size": 111484
+    },
+    {
+      "path": "ENIMAS.bat",
+      "sha256": "0e21585d789fb647ffe61b3fcbee755115c5c10dad548a804680f4ca5f01da3f",
+      "size": 3747
+    },
+    {
+      "path": "ENIMAS_test.bat",
+      "sha256": "ee48609d17a0d7f997061c612089ac99fda7af3762ac4e121dc95b61cf20fc73",
+      "size": 2397
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "8ae8cc303195f83961ce33ba5b8d11479582c97bb2a7fc04eaa8b075d19de5d4",
+      "size": 1153
+    },
+    {
+      "path": "LICENSE-CERN-OHL-P-2.0",
+      "sha256": "6e471d647db50527d0c75ee5f1a55a74012ab177c73282bef0bdc7f6562b7ded",
+      "size": 8852
+    },
+    {
+      "path": "MotorController/motorcontroller.py",
+      "sha256": "d59e940c601450f35058667e03d1b2a58bc3492f35be8995040591ff00f007ac",
+      "size": 5407
+    },
+    {
+      "path": "MotorController/servo.ino",
+      "sha256": "6fb85e8b618505c7474c3e97487d5e27180673eb4ba438d0fc7bbbb3dea89f1e",
+      "size": 3255
+    },
+    {
+      "path": "OBB/obb_measurement_final.py",
+      "sha256": "1d9f7e9e2dc17ea72feb5701cf95ea6266b5875c8c9fef45fbdc3e9a72a89add",
+      "size": 13177
+    },
+    {
+      "path": "PluginBase.py",
+      "sha256": "12cf27eda08abd7a1f3e1a886e56ce0fdab00fd3cc96f9a8b1e5255531a5c645",
+      "size": 1086
+    },
+    {
+      "path": "README.md",
+      "sha256": "469c17499552b3f5f5ef5fd6641d48560c662398e1db7e12b2437bc5fcac56ec",
+      "size": 10717
+    },
+    {
+      "path": "Tools/build_requirements_lock.py",
+      "sha256": "7257c3cd9690bfaafdb88c31be8319a2c2cc53da0d583026beb0af648969480e",
+      "size": 1708
+    },
+    {
+      "path": "Tools/build_update_manifest.py",
+      "sha256": "a32c96bd1cf1a6d448ce2178ef780c868351c6dc9808066afca1aecd95cc1a41",
+      "size": 11583
+    },
+    {
+      "path": "Tools/cropping_boxsegmenter.py",
+      "sha256": "4c81020d974d9e8bb88e559de263dab11b3f79e25d73e0becd9c53c292798f56",
+      "size": 11411
+    },
+    {
+      "path": "Tools/enimas_updater.py",
+      "sha256": "a7740f890e9a58d2a4de3fa0bfa77618b023d6569bbe87b4a24fea3caf2c2651",
+      "size": 143453
+    },
+    {
+      "path": "Tools/health_check.py",
+      "sha256": "360bcf1bf8b054d052babbc2917c44b4c8b529475f90c8d10e0b774f9ebf1c23",
+      "size": 6172
+    },
+    {
+      "path": "Tools/image_output.py",
+      "sha256": "6bfd14bd737e622c032005649b73e18ec212a7461c52f3509d3e6984b39b8cd1",
+      "size": 10431
+    },
+    {
+      "path": "Tools/ml_models.py",
+      "sha256": "8cb9bf87e6fceba0cf1c30b702e80c06d58134c78db422976f93870317b90a14",
+      "size": 26354
+    },
+    {
+      "path": "Tools/protected_install_dispatcher.bat",
+      "sha256": "58c1a638a601e26252820627d1a3b5380623cd2759ebef157b22003670fbda6d",
+      "size": 731
+    },
+    {
+      "path": "Tools/pydrive-zenodo-435114-dc8f101d8de4.json",
+      "sha256": "fb6ff6b673e43aedfd3f2c80b15cda47910e9b7544cb1a4bd4b4ba3e5992c75a",
+      "size": 2385
+    },
+    {
+      "path": "Tools/stack_capture.py",
+      "sha256": "a2ee47179eeec8043bb513a2101499338760a06221a451ece128c7fab782481d",
+      "size": 12016
+    },
+    {
+      "path": "Tools/stack_export.py",
+      "sha256": "0c11097a15d60d35d860bcd5db2ab9039bf37c405fdf78d958be3bfc26811ec3",
+      "size": 9549
+    },
+    {
+      "path": "Tools/stacker.py",
+      "sha256": "e5fc1b97a0b10fd5d6de204bc92b411754944d167f89c9f58ab2eafb9f64bda5",
+      "size": 12926
+    },
+    {
+      "path": "Tools/update_manager.py",
+      "sha256": "87717b5c7dd08b41606c5f72b037bac5fce35c3e08ba9084af85f42ddc16209f",
+      "size": 17950
+    },
+    {
+      "path": "Tools/user_preferences.py",
+      "sha256": "1eb74da5cf3a3903d322c3fce7a9dd949fa19bb993fa880f8f0375e8a5237646",
+      "size": 1340
+    },
+    {
+      "path": "Tools/zenodo_config.json",
+      "sha256": "c48b07aa89ddec7b4ce33c615a48e52287f04e00c8d353d99817e5b84b42e37b",
+      "size": 724
+    },
+    {
+      "path": "Tools/zenodo_uploader.py",
+      "sha256": "f9639b2aeafa875b3f2feb3191a025c6dcac329afc226220a35e7b116b189b83",
+      "size": 23363
+    },
+    {
+      "path": "UPDATER_RELEASE.md",
+      "sha256": "8e9a5fa7b2cb216902aa418702ce45fcde77580422249491b69eba2ed447c666",
+      "size": 6971
+    },
+    {
+      "path": "UserInterface/ImageSettingsDialog.ui",
+      "sha256": "edbd053e3e176e77906b51304df94f4cb4ab2167bc66d64b47ce6529d7ee49c5",
+      "size": 12478
+    },
+    {
+      "path": "UserInterface/Image_save_settings.py",
+      "sha256": "0640660a478f47853ef1637f89ade3f488581a03acf029054a3d2ddf35b41d31",
+      "size": 7807
+    },
+    {
+      "path": "UserInterface/InteractiveStaticLabel.py",
+      "sha256": "426f9e5e66e125f7c5fada36fe9401bbde2ad4a90220bfea808ba09fed3e2696",
+      "size": 22897
+    },
+    {
+      "path": "UserInterface/Partslist/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "UserInterface/Partslist/3D_Printed_Parts/Base/base.stl",
+      "sha256": "7a4205c047e0cf6d767bb7b6d9061db7df01a40b00c5adc9c7d661ecd880fd08",
+      "size": 1156084
+    },
+    {
+      "path": "UserInterface/Partslist/3D_Printed_Parts/Base/linear_asm_lid.stl",
+      "sha256": "3723f916fb44c34e35f61975901501af64a42589734af960f59088d8c1b00b92",
+      "size": 103684
+    },
+    {
+      "path": "UserInterface/Partslist/3D_Printed_Parts/Base/linear_rail_base.stl",
+      "sha256": "d3ce7d1536e75fae49135ecbf660fdce2fef552b8f35c27165af7083b3fbbdbc",
+      "size": 2045484
+    },
+    {
+      "path": "UserInterface/Partslist/3D_Printed_Parts/Base/linear_rod_clamp.stl",
+      "sha256": "24cbeb572ad19af0b6691e3e6fc775c6137c0156701ed9f22956b4e1e78d3bbf",
+      "size": 166184
+    },
+    {
+      "path": "UserInterface/Partslist/3D_Printed_Parts/Cable Guides/cable_holder_bracket_bosch.stl",
+      "sha256": "d58bf81ac7204862a72b86c4ae6ae3da84d30e904eea0a184df58e8a0789c7a3",
+      "size": 455984
+    },
+    {
+      "path": "UserInterface/Partslist/3D_Printed_Parts/Cable Guides/cable_holder_bracket_u-prof_nut.stl",
+      "sha256": "5a6bdbc220ef197fee7c695800282d45f5d596333c4f1ce51014c619646d901a",
+      "size": 512584
+    },
+    {
+      "path": "UserInterface/Partslist/3D_Printed_Parts/Cable Guides/energy_chain_bracket_bosch.stl",
+      "sha256": "ad551f1f77bc001190527fa1ebca8288c50f5a74dd6f1878a0f8c4e6955d1ab7",
+      "size": 540484
+    },
+    {
+      "path": "UserInterface/Partslist/3D_Printed_Parts/Cable Guides/energy_chain_bracket_u-prof_nut.stl",
+      "sha256": "b3a32bd2e92f8e218d38d0ee89f410bb435f7ac764d07f7797649c63eb195270",
+      "size": 600984
+    },
+    {
+      "path": "UserInterface/Partslist/3D_Printed_Parts/Lighting Unit/lighting_base_square_100mm.stl",
+      "sha256": "41223a1f490c92d78967e94e7bdfdd4c80b5804ed928ce6d9f35d2c6ed7476a2",
+      "size": 391184
+    },
+    {
+      "path": "UserInterface/Partslist/3D_Printed_Parts/Lighting Unit/lighting_lid_square_100mm.stl",
+      "sha256": "3ba10c93ffe7325d5c0e8617941e8016502fcc66b278452813fa4af93d092adb",
+      "size": 489484
+    },
+    {
+      "path": "UserInterface/Partslist/3D_Printed_Parts/Linear Carriage/cammera_carrier.stl",
+      "sha256": "0944c6348c7600d51966d691faad9a2531c6a39cdc0505e345ed23412a92ac31",
+      "size": 4182684
+    },
+    {
+      "path": "UserInterface/Partslist/3D_Printed_Parts/Top/linear_rail_top.stl",
+      "sha256": "658038d2894c37c0d381d4380c68fd463d05f27992794ab2bf32b8709fb2e203",
+      "size": 893884
+    },
+    {
+      "path": "UserInterface/Partslist/3D_Printed_Parts/Top/linear_rail_top_lid.stl",
+      "sha256": "7cef6268f1fa222651ab6646cad41236f20ccf6a39af12ec36107ca022b1928b",
+      "size": 939284
+    },
+    {
+      "path": "UserInterface/Partslist/Entomoscope_2_0_Partslist_NEW.xlsx",
+      "sha256": "536a33b0a59ad6da080dd5a03a9db00571007ca08bd9d7e309bfaa04efbd6a4d",
+      "size": 23377
+    },
+    {
+      "path": "UserInterface/VAImagingcamera_settings.ui",
+      "sha256": "6f8e8662779061be0e27d074bfe7d4c8280938447c250e541c073cfecdaf1c2a",
+      "size": 9685
+    },
+    {
+      "path": "UserInterface/Wiki_Images/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "UserInterface/Wiki_Images/arduino_device_choice.png",
+      "sha256": "dba3e639478d696b4ce35a990479c6541552812b4b37e09df097521c35b529e4",
+      "size": 906162
+    },
+    {
+      "path": "UserInterface/Wiki_Images/arduino_install_ArduinoThread.png",
+      "sha256": "4c2e438e028dcb126111fc2d2f58a38de654680a8180ff2f245ed1a8d724309f",
+      "size": 884973
+    },
+    {
+      "path": "UserInterface/Wiki_Images/arduino_library_manager.png",
+      "sha256": "0af318fec594c0e5018d1e245d8a1da077e92f0f17ba7645973668ed6e59ea1d",
+      "size": 455219
+    },
+    {
+      "path": "UserInterface/Wiki_Images/base_plate_explosion_arduino.png",
+      "sha256": "11f456ea155a5a1d93c8d8c40164f46527120bf00e9ba1b9973bf9265d60d45d",
+      "size": 142092
+    },
+    {
+      "path": "UserInterface/Wiki_Images/base_plate_final.jpg",
+      "sha256": "1db729863a1d9efd479c23095abd4fe97ef4b148016ca80f0886779b7e042673",
+      "size": 1609514
+    },
+    {
+      "path": "UserInterface/Wiki_Images/bearing_alignment.jpg",
+      "sha256": "1c946623b303564e2ed65959aa0a6de8824b6f2628659dc98a140c8590caa658",
+      "size": 2473661
+    },
+    {
+      "path": "UserInterface/Wiki_Images/cable_brackets.JPG",
+      "sha256": "56048973fd31b7ce782198ccefef55db6516b160c3f94e4f446879edb03f0df1",
+      "size": 10539682
+    },
+    {
+      "path": "UserInterface/Wiki_Images/camera_carrier_explosion.png",
+      "sha256": "593c9c8a9aef8360fa35eb0d9f78b013eaeede92927d4ae36256761293d46a9e",
+      "size": 469447
+    },
+    {
+      "path": "UserInterface/Wiki_Images/camera_carrier_mounting.jpg",
+      "sha256": "1cff4b17f410b733b8983984578831e1345719bb5b89c9e95f60d53987ad1ca3",
+      "size": 1436315
+    },
+    {
+      "path": "UserInterface/Wiki_Images/centered_bearing.jpg",
+      "sha256": "0e3400153a259111bc550e397829c2822d91e0ca21e72df3e61ccbdc978d25c3",
+      "size": 1055343
+    },
+    {
+      "path": "UserInterface/Wiki_Images/clamps_explosion.png",
+      "sha256": "9d106ea93eaefa2f90778db7a12e1c6c5dcb66d487f1859c5aaf8a90c4e800a5",
+      "size": 143721
+    },
+    {
+      "path": "UserInterface/Wiki_Images/cnc_shield_jumpers.png",
+      "sha256": "3cc25f32916a65294905f2e5be61fe14fe42ad4894c43f85d63a259755b14dfe",
+      "size": 139365
+    },
+    {
+      "path": "UserInterface/Wiki_Images/coupler_distance.jpg",
+      "sha256": "80d879a441a5cf9f198e7fb78729d0b9e1caf4f0ae7bcb9aad64c183dd686d5d",
+      "size": 124162
+    },
+    {
+      "path": "UserInterface/Wiki_Images/diffuser_plates.jpg",
+      "sha256": "57cd78f5971d443ec593698c7d3bb7171d03f0472b44f5f0e8e0fd08ee1f0bf6",
+      "size": 445090
+    },
+    {
+      "path": "UserInterface/Wiki_Images/drag_chain.jpg",
+      "sha256": "b10be7071b096cb0391be661382c60709f678a06b959d37eb055f0cde0f56e69",
+      "size": 190264
+    },
+    {
+      "path": "UserInterface/Wiki_Images/drag_chain_bracket_explosion.png",
+      "sha256": "5ba580f11f6e56f9f2491120a849b2f3b32a2b572b8d88bd1d9084b2345f6887",
+      "size": 130335
+    },
+    {
+      "path": "UserInterface/Wiki_Images/electronics_base.JPG",
+      "sha256": "9f0e07cc7f37f17eedd260e28c19243ff73d68e47540303c15aa258fa9b8c544",
+      "size": 9710917
+    },
+    {
+      "path": "UserInterface/Wiki_Images/endswitch_cable.JPG",
+      "sha256": "796c58bacfa27d4a9118e11202f8925b2524992a8662504b13311da3b88c7b87",
+      "size": 11060686
+    },
+    {
+      "path": "UserInterface/Wiki_Images/endswitch_circuit_diagram.png",
+      "sha256": "90be21a0a8bb592fd42edf5ae0820f5c85e92f73d60514844d7afd386c0b0066",
+      "size": 11308
+    },
+    {
+      "path": "UserInterface/Wiki_Images/endswitch_cnc_connection.png",
+      "sha256": "dd8f2a31d5a7213538c270e026944275b93be99791c7708658c7a461b22eaaf1",
+      "size": 236430
+    },
+    {
+      "path": "UserInterface/Wiki_Images/fan_explosion.png",
+      "sha256": "a9241df8a2585042d77bcf4801c6c7c478d5a93cfdeb38e41b3b4f56ff4a4649",
+      "size": 439744
+    },
+    {
+      "path": "UserInterface/Wiki_Images/final_assembly_1.png",
+      "sha256": "cdc2725b8e2b1fb61df72a0e50ce93702bd9d08f62ee3e35a32a0aa34b9263ae",
+      "size": 30259650
+    },
+    {
+      "path": "UserInterface/Wiki_Images/final_assembly_2.png",
+      "sha256": "a5de561887f6cb35ba0a9bcd49a2df719b9ff3ac9bf1b111b2146c42c8ab9975",
+      "size": 7392763
+    },
+    {
+      "path": "UserInterface/Wiki_Images/lighting_base.JPG",
+      "sha256": "dec53517f9fad9e8434c3bc1fae582dbfdedf8372f45033945cbb0acf9885328",
+      "size": 9870610
+    },
+    {
+      "path": "UserInterface/Wiki_Images/lighting_unit_explosion.png",
+      "sha256": "4b7c5639c58a9f9fdea379f2d9f5dd3693de6573a98a61428c628a8f4c30bb24",
+      "size": 275753
+    },
+    {
+      "path": "UserInterface/Wiki_Images/linear_top_explosion.png",
+      "sha256": "d89d280be34cfc1647e4c20589fe6ef109e466f713d0bca6cc544a494c33a6f7",
+      "size": 702174
+    },
+    {
+      "path": "UserInterface/Wiki_Images/power_supply_adapter_wiring.png",
+      "sha256": "2ecfb4b1a9a2f2276c03f64709d70a1ce7eee30e9e8d99f492fc6f50d260c6bd",
+      "size": 798588
+    },
+    {
+      "path": "UserInterface/Wiki_Images/power_supply_cables.jpg",
+      "sha256": "137cbd028efe4529743108f710555b7481d4a2985f1556ce8f90bab9485100bb",
+      "size": 1659759
+    },
+    {
+      "path": "UserInterface/Wiki_Images/tilted_bearing.jpg",
+      "sha256": "e86b70114271e479b5f705611fbbe467072aca704a804c581d0dab18dec888dc",
+      "size": 394297
+    },
+    {
+      "path": "UserInterface/Wiki_Images/top_alignment.jpg",
+      "sha256": "0dfef1e291ce4c4758d5a29101dc9504fbe013e6d51143cadb3ffd6f9f6c936c",
+      "size": 761664
+    },
+    {
+      "path": "UserInterface/Wiki_Images/top_cable.JPG",
+      "sha256": "d3d9af2e4edd34434da61eb923fd607408a9a9aa050c8e22ae0dbce629a9187c",
+      "size": 1044778
+    },
+    {
+      "path": "UserInterface/Wiki_Images/top_lid.JPG",
+      "sha256": "e4d6cf0d5190b3a423132f4fd212516d2944d1e28f43e146c30cb79bf8464947",
+      "size": 1183416
+    },
+    {
+      "path": "UserInterface/Wiki_Images/u-profile_explosion.png",
+      "sha256": "b2deffafd6dbccfc5d735e831930727ecd01d552b67d1dca2a10e8530ad72587",
+      "size": 283010
+    },
+    {
+      "path": "UserInterface/Wiki_Images/usb_hub.jpg",
+      "sha256": "581d708bcd9612aa7bf531ea54e783b29e8859eadb77e904372df5111cda2afc",
+      "size": 2475265
+    },
+    {
+      "path": "UserInterface/Wiki_Images/wiring_overview.png",
+      "sha256": "c0005e3a3596e0428e6feed151b11db7daed254412c6c9ae234715dc06134b61",
+      "size": 108990
+    },
+    {
+      "path": "UserInterface/camera_settings.ui",
+      "sha256": "adbd50737db0287ccd42544c80a338d60d474f66328371ae31f675c34245abe3",
+      "size": 8921
+    },
+    {
+      "path": "UserInterface/checkable_combo_box.py",
+      "sha256": "a4cf4f6375e86f1e08e0204f3d6736e995fc2ed1dfe37540c5842a9f079bc2b3",
+      "size": 3957
+    },
+    {
+      "path": "UserInterface/connection_error.ui",
+      "sha256": "2fe68a7bfc60c399ca3501dd7763e2baa69720486319143a5d8c39ff0215f026",
+      "size": 3212
+    },
+    {
+      "path": "UserInterface/dialog.ui",
+      "sha256": "7b994288b8dfb7fb1905a29d38e8f9e2450abae3570456d1695f90112777e798",
+      "size": 11090
+    },
+    {
+      "path": "UserInterface/imgs/490-415-max.png",
+      "sha256": "d296d22c79cced8ac0fefe276e30f9e0164e0f215c900fcc8141d1681055a87c",
+      "size": 22049
+    },
+    {
+      "path": "UserInterface/imgs/ENIMAS.png",
+      "sha256": "c5d7c6da6ed72673b6fca863da1f1108c9ecd302ccd90b03b4611cf4902dd459",
+      "size": 1923982
+    },
+    {
+      "path": "UserInterface/imgs/Insect.svg",
+      "sha256": "ac8d9660ebc862df6aac254ce9c06c0ddd6d9fc86c6cccf092e9b54319d48163",
+      "size": 30530
+    },
+    {
+      "path": "UserInterface/imgs/Spinner.gif",
+      "sha256": "81811b03c1f0d25f055a7048b5f8cf1e9d3580c1ed1756f61b36bd2132f694e4",
+      "size": 14183
+    },
+    {
+      "path": "UserInterface/imgs/add-folder.png",
+      "sha256": "432d981a869899cccdd44315cacfde6dcd3afb07ec12e31094b602e4ccd6c57f",
+      "size": 13460
+    },
+    {
+      "path": "UserInterface/imgs/add-insect.png",
+      "sha256": "d69016e3f2bec265b05648ed3ad4655c0c165728f75acb93cce150e346efdaac",
+      "size": 25992
+    },
+    {
+      "path": "UserInterface/imgs/autofocus.png",
+      "sha256": "cdb63ee69bfb6c42d05d5e42bcf35aeb93f185552116579f30118b1e68c9c9e8",
+      "size": 4079
+    },
+    {
+      "path": "UserInterface/imgs/browse_dirs.png",
+      "sha256": "69807a77270f7b299872b2de02d05899d4ba7015dad689f30ce659f2b9bdbb0c",
+      "size": 14989
+    },
+    {
+      "path": "UserInterface/imgs/camera_settings.png",
+      "sha256": "2b22517b2b26d76d61a75d22cdad700db52be29d2b3252dd4973bfe0a9be8a26",
+      "size": 30200
+    },
+    {
+      "path": "UserInterface/imgs/dektop_icon.png",
+      "sha256": "19e5a3f32852432957de10245bb441d0412a23bf27dbbbb7a78d826610bfee40",
+      "size": 20341
+    },
+    {
+      "path": "UserInterface/imgs/down_arrow.png",
+      "sha256": "7209748a8ce960f5486296ed2c1c234c254e70560ff11bdf21763774d483f3e2",
+      "size": 6398
+    },
+    {
+      "path": "UserInterface/imgs/enimas_Icon.ico",
+      "sha256": "03c707c947eb1afbceed21497d15cc003c2cfe9fb2f8500d61bd98ce5ff7dd84",
+      "size": 15252
+    },
+    {
+      "path": "UserInterface/imgs/enimas_icon.png",
+      "sha256": "3d53ed309f1d54659f46f25e23da4c6dfbfd0e8c9ccc6ab082d8265f33ad239e",
+      "size": 379983
+    },
+    {
+      "path": "UserInterface/imgs/entomoscope_logo.png",
+      "sha256": "b2eb39bc748c28f7f01bab2c87e5c993aa7ac57e2a272b128f42f2f847826766",
+      "size": 48871
+    },
+    {
+      "path": "UserInterface/imgs/lens-icon.png",
+      "sha256": "792de67c9b5d1b2e4c614cc5c5ef06daece87302e4ebf5e8610ac38a1fcc9d6c",
+      "size": 6267
+    },
+    {
+      "path": "UserInterface/imgs/reference_axis.png",
+      "sha256": "678e5ad4ed48f7bb9f442797c97a0e7a97c9a1b2e9ed0d8a040f22f4dc8cc667",
+      "size": 4506
+    },
+    {
+      "path": "UserInterface/imgs/take_single_image.png",
+      "sha256": "03eb2e122a178856e635feadf4935bc9b42fff2b809a66bbf1a1ead9d8b3e69f",
+      "size": 4649
+    },
+    {
+      "path": "UserInterface/imgs/take_stack.png",
+      "sha256": "bd32fa5ac5fd9c230b952c2bbf592fd465fd2b634a74ad5cdf83d0018f1996cd",
+      "size": 10657
+    },
+    {
+      "path": "UserInterface/imgs/up_arrow.png",
+      "sha256": "41d469d19ac52e01ab6e4fbb41abd3f5f31668e2d73f498b20a849954bf9062e",
+      "size": 6320
+    },
+    {
+      "path": "UserInterface/imgs/zenodo-icon-blue.ico",
+      "sha256": "294c366837e66677cd1afee752072132d33c54ae2f0d1e204dbb066d5043df72",
+      "size": 9261
+    },
+    {
+      "path": "UserInterface/logo_screen.ui",
+      "sha256": "f7a924209a114bd969736b8f1da032203e221d2c1d78b6a420c7098e8d59650a",
+      "size": 758
+    },
+    {
+      "path": "UserInterface/main.ui",
+      "sha256": "169720456a128bec3b715ed6305a76482e768cf8f96267b400e18ef3b161a4ab",
+      "size": 92072
+    },
+    {
+      "path": "UserInterface/method_selection.py",
+      "sha256": "363685e26df864c1ca419dea4fa844be22aafd94befe586dcfb0d1a256dea57a",
+      "size": 6076
+    },
+    {
+      "path": "UserInterface/plugin_manager.py",
+      "sha256": "6c3e5805c290e8c1e63506f397b4e747ffa9fc01f041235dea14a5c30d07f5f3",
+      "size": 2078
+    },
+    {
+      "path": "UserInterface/stacking_method_dialog.ui",
+      "sha256": "5fad1cfe1b44136628a5d5f20d728c4e49270f8414d2c72254e21df885e8b47d",
+      "size": 7457
+    },
+    {
+      "path": "UserInterface/ui.py",
+      "sha256": "e060110e7f62eb873b7e26d3c730b5b0c16d5d26ba2b0101f510e9d8fd1cbc32",
+      "size": 235702
+    },
+    {
+      "path": "User_Guide.docx",
+      "sha256": "e597432480a32225db4c226c8d80421743b7cfa31ec28f040d2c756e5d4fd315",
+      "size": 13922088
+    },
+    {
+      "path": "User_Guide.pdf",
+      "sha256": "ff9edf5bddfa8a2a998503419a4cf7b6779319aa07441a853e7f7a06e53c9f7b",
+      "size": 1251364
+    },
+    {
+      "path": "VAImagingcam/ImageConvert.py",
+      "sha256": "7a828c169df440caeb31e87979129312d9e76da5419885ff43a9e3581011138c",
+      "size": 8352
+    },
+    {
+      "path": "VAImagingcam/VAImagingcam.py",
+      "sha256": "cb2f960e1e925462792faea24b6a4fb4f437686368fd3942508b7c83914f4957",
+      "size": 9032
+    },
+    {
+      "path": "camera-driver/README.md",
+      "sha256": "1dfc1228ae52540159b7eac183b9e1bd733124b5c84763b1a7c164666ea35849",
+      "size": 737
+    },
+    {
+      "path": "camera-driver/Vaimaging/Galaxy_Windows_EN_32bits-64bits_2.3.2410.9292.exe",
+      "sha256": "57f89b3977781bbe62a0fd7c5c1359bcf256ddfc98c2db7296d5a0851b8ea863",
+      "size": 138849155
+    },
+    {
+      "path": "camera-driver/x64/WdfCoinstaller01011.dll",
+      "sha256": "f6fb39a8578f19616570d5a3dc7212c84a9da232b30a03376bbf08f4264fedf2",
+      "size": 1795952
+    },
+    {
+      "path": "camera-driver/x64/cyusb3.cat",
+      "sha256": "eb2358734e7fe54c238bb097f989a8bfc37882809d2f3ed6fb05bfc0ad30fc32",
+      "size": 10947
+    },
+    {
+      "path": "camera-driver/x64/cyusb3.inf",
+      "sha256": "79c2d112f4a5df02c2ba2d85f9e260e0834e40003c1d4108df0ffe0df69b6010",
+      "size": 4080
+    },
+    {
+      "path": "camera-driver/x64/cyusb3.sys",
+      "sha256": "9f6b6a5625dc3001a4e16308366b1fb634a5b9d9f482c36c42352cc272cdf8a1",
+      "size": 63160
+    },
+    {
+      "path": "camera-driver/x86/WdfCoinstaller01011.dll",
+      "sha256": "c7649879a10c9332fc0f9744c7e3224647aee9e7e62c7e21cf9e987462e3dd06",
+      "size": 1629040
+    },
+    {
+      "path": "camera-driver/x86/cyusb3.cat",
+      "sha256": "8fb308e7d568f9ee77daf7c80e2888174602cb600590d6f012818653e0fed640",
+      "size": 10946
+    },
+    {
+      "path": "camera-driver/x86/cyusb3.inf",
+      "sha256": "79c2d112f4a5df02c2ba2d85f9e260e0834e40003c1d4108df0ffe0df69b6010",
+      "size": 4080
+    },
+    {
+      "path": "camera-driver/x86/cyusb3.sys",
+      "sha256": "da4501ca1e65f25ace0df6b968fd75242cc657d1945f76854cbb2efd919c7b51",
+      "size": 53944
+    },
+    {
+      "path": "config.txt",
+      "sha256": "34db8202b50ed23340830ad49c535e3eaabac9f10b5cdd0357c560c986469a2d",
+      "size": 274
+    },
+    {
+      "path": "constants.py",
+      "sha256": "7e46432174d6a309960d67aee5354b1d042e72bc0e3602a388a5056bca7d3a31",
+      "size": 2601
+    },
+    {
+      "path": "docs/superpowers/plans/2026-08-12-installer-repair-preferences.md",
+      "sha256": "31551d2821c7a6e1ef01171283eacc2960c77e61f0fd8102a146dc6163c8dfaa",
+      "size": 15111
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-12-installer-repair-preferences-design.md",
+      "sha256": "af15db922f9c1be9f7c2e3ec0be5a0ff3b578373bc5421090aadeafded1c2384",
+      "size": 5508
+    },
+    {
+      "path": "error_handler.py",
+      "sha256": "734852c8da9392e895ad5060c787807658ba779a8dee5212380a0a610b816a20",
+      "size": 620
+    },
+    {
+      "path": "install.bat",
+      "sha256": "5d45c352092e67824d86bddcb5d1dc865e4fc94ff38787cfc9adb4b0af9e3bec",
+      "size": 45728
+    },
+    {
+      "path": "install_test.bat",
+      "sha256": "c12d9b023c759cd028eff066c829271fb219c5bb196121fa68c0a63f49c71d27",
+      "size": 10363
+    },
+    {
+      "path": "lenses.json",
+      "sha256": "b49f7e32ce36c3afdfe6cf4dc0c8e66ba7c69322603f4385ff473827f0c30190",
+      "size": 6028
+    },
+    {
+      "path": "main.py",
+      "sha256": "0fdebf36cbc120994bb9bc0e17a2d8a1f008b01b631221de3d60c22bd1a31ae0",
+      "size": 15180
+    },
+    {
+      "path": "models/cropping/insect_crop.onnx",
+      "sha256": "c2596960f2b9724c4d96952cadd98f7e4a66727578f04d3fa8cf494216114c16",
+      "size": 12238124
+    },
+    {
+      "path": "models/obb/yolov8m_obb3_best.onnx",
+      "sha256": "6f627ec86529308b1f6350e4a5ad361a1ed3a5f204787f24e9a15a6a906819a8",
+      "size": 105926892
+    },
+    {
+      "path": "plugins/Uniform_Background/plugin.py",
+      "sha256": "f49b0877df99586ff052a34d78a26a2fb0b0133698cc103b3b01c4d1bb7afd80",
+      "size": 12671
+    },
+    {
+      "path": "plugins/Uniform_Background/plugin.ui",
+      "sha256": "103210479b3cfa58f9f3cc76ec79ccc467e7128287fde4186854f536247374b6",
+      "size": 16036
+    },
+    {
+      "path": "plugins/classification/plugin.py",
+      "sha256": "56deb4a5a3cfc3e2d97b0ad8ed21f62e963aa1ea818cf1e9347c3be604d0b217",
+      "size": 17994
+    },
+    {
+      "path": "plugins/classification/plugin.ui",
+      "sha256": "17b0b20671c526cec5af87b57244db2210b84d5c792546cd970ef9fd2f203018",
+      "size": 17447
+    },
+    {
+      "path": "plugins/cropping/plugin.py",
+      "sha256": "8b3dd1089438f1885a88afb635520ff20c9300d57759d236b93b540bc9595f80",
+      "size": 14999
+    },
+    {
+      "path": "plugins/cropping/plugin.ui",
+      "sha256": "4ff6b6815d8cbe9d4516daab1c2736af886b5b4417f53c6581523a945c2598d9",
+      "size": 14074
+    },
+    {
+      "path": "plugins/measurement/plugin.py",
+      "sha256": "c33a0688c08b5ab23850d4787fee9334cfa703f75887bcdd4d45a0557a895cbf",
+      "size": 22195
+    },
+    {
+      "path": "plugins/measurement/plugin.ui",
+      "sha256": "dc0a7ed1ea92d6e5c3a330eef5d9207d0bb3bef308b8333ca196700550eefd48",
+      "size": 20516
+    },
+    {
+      "path": "plugins/measurement/plugin_m_config.json",
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "size": 2
+    },
+    {
+      "path": "plugins/stack_export/plugin.py",
+      "sha256": "72a191c3b6e8f72adc109e6f9edfd6a786bf8cb3c601284af6c7da1bbebfab96",
+      "size": 14192
+    },
+    {
+      "path": "process_cleanup.py",
+      "sha256": "51b36ee8ecd755b062169f0e31168078204a2a08deb9985d580f0a2989ee5ca2",
+      "size": 1624
+    },
+    {
+      "path": "requirements.lock",
+      "sha256": "44f27f2c92b98afbcc491aa06a89142df7304c4da0c59b61558a554b36671c22",
+      "size": 126940
+    },
+    {
+      "path": "requirements.txt",
+      "sha256": "18acefc5046f9fbac554b1445bc30c3c9fb54f399b60ba0bc2a32e3dd5a100b7",
+      "size": 736
+    },
+    {
+      "path": "test_hidden_shortcut.bat",
+      "sha256": "3c75deaf0f99adacee83053a50b6d57e60802048eac107f446332ff70e80465c",
+      "size": 2600
+    },
+    {
+      "path": "tests/test_camera_freshness.py",
+      "sha256": "2a57c521a097c381ffb667b1b8d03402b326c2b7c174f703b137c60e9e161995",
+      "size": 65651
+    },
+    {
+      "path": "tests/test_classification_plugin_results.py",
+      "sha256": "94b74b855fa4ade020d400345290bef9de4a097791fbb522274e0d0456e76d32",
+      "size": 1948
+    },
+    {
+      "path": "tests/test_ml_models_routing.py",
+      "sha256": "bbedee9da8b921929f173145339d55e4e319730baf855e4aabaf3468158cf1df",
+      "size": 12016
+    },
+    {
+      "path": "tests/test_output_workflows.py",
+      "sha256": "20bd70f2423f178b1eb8eda433f435bfbfb6d548bfb66d860122c383b3055d11",
+      "size": 18856
+    },
+    {
+      "path": "tests/test_stack_capture_and_stacker.py",
+      "sha256": "d7f1265e0ad8be6ed2a2bc7be29a28b0bc031206b72a328d1cbd8043bebe5757",
+      "size": 28174
+    },
+    {
+      "path": "tests/test_update_handoff.py",
+      "sha256": "945598aa8bd55412adf3f01d463e197ee7ea0184c294ce8f9b027cd3c1cde0f0",
+      "size": 6549
+    },
+    {
+      "path": "tests/test_updater.py",
+      "sha256": "a86ac9e429ebb9880ff0d44c82b9a789a1fb801edeb46bbbe9b9d03c8ae7f627",
+      "size": 132540
+    },
+    {
+      "path": "tests/test_user_preferences.py",
+      "sha256": "e56b4f77467ef7d71ea76b9bbcd5aeb73a780d38d7e5a2fc90d16fc27e249e8f",
+      "size": 3396
+    },
+    {
+      "path": "vendor/README.md",
+      "sha256": "629bb502599b9c75a957e3b25c75aa23e70620a3cf08a9017f33972c8b12723d",
+      "size": 442
+    },
+    {
+      "path": "vendor/refiners-0.4.0-py3-none-any.whl",
+      "sha256": "c4a92663e4f735659049ab6cfabd1d1c5d8613df77852f2c6244e792af6d804a",
+      "size": 1552599
+    }
+  ],
+  "changelog_path": "CHANGELOG.md",
+  "files": [
+    {
+      "destination": "ENIMAS.bat",
+      "path": "ENIMAS.bat",
+      "sha256": "0e21585d789fb647ffe61b3fcbee755115c5c10dad548a804680f4ca5f01da3f",
+      "size": 3747
+    },
+    {
+      "destination": "install.bat",
+      "path": "install.bat",
+      "sha256": "5d45c352092e67824d86bddcb5d1dc865e4fc94ff38787cfc9adb4b0af9e3bec",
+      "size": 45728
+    },
+    {
+      "destination": "src/Arducam/Arducam.py",
+      "path": "Arducam/Arducam.py",
+      "sha256": "d586a42099f50232ec8d09f6005a53850dd7ec30e173b1e91938f332dabdd206",
+      "size": 12185
+    },
+    {
+      "destination": "src/Arducam/IMX477_2Lane_4032x3040_RAW8_A.cfg",
+      "path": "Arducam/IMX477_2Lane_4032x3040_RAW8_A.cfg",
+      "sha256": "43753b6463b9cc3458c9eb54f5aae6c0ff6c7f0387b0d0688d35327063695d18",
+      "size": 17059
+    },
+    {
+      "destination": "src/Arducam/ImageConvert.py",
+      "path": "Arducam/ImageConvert.py",
+      "sha256": "e8da9986185aa6ff8dc3673449adb7d8b325b47059f88be7194cd63204c32ef6",
+      "size": 3593
+    },
+    {
+      "destination": "src/Arducam/utils.py",
+      "path": "Arducam/utils.py",
+      "sha256": "cb61e990034ecb3a413fddfc332d72f69dbdbdc16a56c7ddaf582600adf1783f",
+      "size": 4243
+    },
+    {
+      "destination": "src/Background_remover/background_remover.py",
+      "path": "Background_remover/background_remover.py",
+      "sha256": "e666af5ec6583cf359d8b3566a248ef394021845cc415e344645c9ebf3011962",
+      "size": 10651
+    },
+    {
+      "destination": "src/Background_remover/data_util.py",
+      "path": "Background_remover/data_util.py",
+      "sha256": "ba248d5cc30d7f11b53258ba363786a0c6ae15002fa52f3889af4e27a5ec680f",
+      "size": 7052
+    },
+    {
+      "destination": "src/CHANGELOG.md",
+      "path": "CHANGELOG.md",
+      "sha256": "722dfe4f6d9436466cf3574cafafaed5519fc9a1d01a88505c406aa92bcfa629",
+      "size": 22000
+    },
+    {
+      "destination": "src/CLASSIFICATION_MODEL_GUIDE.md",
+      "path": "CLASSIFICATION_MODEL_GUIDE.md",
+      "sha256": "5183317fd7d0c19c06ac56a9a9c0595f7fc90035b9eb31042f36d35644967a8c",
+      "size": 22664
+    },
+    {
+      "destination": "src/CLASSIFICATION_MODEL_GUIDE.pdf",
+      "path": "CLASSIFICATION_MODEL_GUIDE.pdf",
+      "sha256": "d526c17e900e32de3fe8c29c69551905f3ad35135c0742836879808f488be50d",
+      "size": 111484
+    },
+    {
+      "destination": "src/ENIMAS.bat",
+      "path": "ENIMAS.bat",
+      "sha256": "0e21585d789fb647ffe61b3fcbee755115c5c10dad548a804680f4ca5f01da3f",
+      "size": 3747
+    },
+    {
+      "destination": "src/LICENSE",
+      "path": "LICENSE",
+      "sha256": "8ae8cc303195f83961ce33ba5b8d11479582c97bb2a7fc04eaa8b075d19de5d4",
+      "size": 1153
+    },
+    {
+      "destination": "src/LICENSE-CERN-OHL-P-2.0",
+      "path": "LICENSE-CERN-OHL-P-2.0",
+      "sha256": "6e471d647db50527d0c75ee5f1a55a74012ab177c73282bef0bdc7f6562b7ded",
+      "size": 8852
+    },
+    {
+      "destination": "src/MotorController/motorcontroller.py",
+      "path": "MotorController/motorcontroller.py",
+      "sha256": "d59e940c601450f35058667e03d1b2a58bc3492f35be8995040591ff00f007ac",
+      "size": 5407
+    },
+    {
+      "destination": "src/MotorController/servo.ino",
+      "path": "MotorController/servo.ino",
+      "sha256": "6fb85e8b618505c7474c3e97487d5e27180673eb4ba438d0fc7bbbb3dea89f1e",
+      "size": 3255
+    },
+    {
+      "destination": "src/OBB/obb_measurement_final.py",
+      "path": "OBB/obb_measurement_final.py",
+      "sha256": "1d9f7e9e2dc17ea72feb5701cf95ea6266b5875c8c9fef45fbdc3e9a72a89add",
+      "size": 13177
+    },
+    {
+      "destination": "src/PluginBase.py",
+      "path": "PluginBase.py",
+      "sha256": "12cf27eda08abd7a1f3e1a886e56ce0fdab00fd3cc96f9a8b1e5255531a5c645",
+      "size": 1086
+    },
+    {
+      "destination": "src/README.md",
+      "path": "README.md",
+      "sha256": "469c17499552b3f5f5ef5fd6641d48560c662398e1db7e12b2437bc5fcac56ec",
+      "size": 10717
+    },
+    {
+      "destination": "src/Tools/build_requirements_lock.py",
+      "path": "Tools/build_requirements_lock.py",
+      "sha256": "7257c3cd9690bfaafdb88c31be8319a2c2cc53da0d583026beb0af648969480e",
+      "size": 1708
+    },
+    {
+      "destination": "src/Tools/build_update_manifest.py",
+      "path": "Tools/build_update_manifest.py",
+      "sha256": "a32c96bd1cf1a6d448ce2178ef780c868351c6dc9808066afca1aecd95cc1a41",
+      "size": 11583
+    },
+    {
+      "destination": "src/Tools/cropping_boxsegmenter.py",
+      "path": "Tools/cropping_boxsegmenter.py",
+      "sha256": "4c81020d974d9e8bb88e559de263dab11b3f79e25d73e0becd9c53c292798f56",
+      "size": 11411
+    },
+    {
+      "destination": "src/Tools/enimas_updater.py",
+      "path": "Tools/enimas_updater.py",
+      "sha256": "a7740f890e9a58d2a4de3fa0bfa77618b023d6569bbe87b4a24fea3caf2c2651",
+      "size": 143453
+    },
+    {
+      "destination": "src/Tools/health_check.py",
+      "path": "Tools/health_check.py",
+      "sha256": "360bcf1bf8b054d052babbc2917c44b4c8b529475f90c8d10e0b774f9ebf1c23",
+      "size": 6172
+    },
+    {
+      "destination": "src/Tools/image_output.py",
+      "path": "Tools/image_output.py",
+      "sha256": "6bfd14bd737e622c032005649b73e18ec212a7461c52f3509d3e6984b39b8cd1",
+      "size": 10431
+    },
+    {
+      "destination": "src/Tools/ml_models.py",
+      "path": "Tools/ml_models.py",
+      "sha256": "8cb9bf87e6fceba0cf1c30b702e80c06d58134c78db422976f93870317b90a14",
+      "size": 26354
+    },
+    {
+      "destination": "src/Tools/protected_install_dispatcher.bat",
+      "path": "Tools/protected_install_dispatcher.bat",
+      "sha256": "58c1a638a601e26252820627d1a3b5380623cd2759ebef157b22003670fbda6d",
+      "size": 731
+    },
+    {
+      "destination": "src/Tools/pydrive-zenodo-435114-dc8f101d8de4.json",
+      "path": "Tools/pydrive-zenodo-435114-dc8f101d8de4.json",
+      "sha256": "fb6ff6b673e43aedfd3f2c80b15cda47910e9b7544cb1a4bd4b4ba3e5992c75a",
+      "size": 2385
+    },
+    {
+      "destination": "src/Tools/stack_capture.py",
+      "path": "Tools/stack_capture.py",
+      "sha256": "a2ee47179eeec8043bb513a2101499338760a06221a451ece128c7fab782481d",
+      "size": 12016
+    },
+    {
+      "destination": "src/Tools/stack_export.py",
+      "path": "Tools/stack_export.py",
+      "sha256": "0c11097a15d60d35d860bcd5db2ab9039bf37c405fdf78d958be3bfc26811ec3",
+      "size": 9549
+    },
+    {
+      "destination": "src/Tools/stacker.py",
+      "path": "Tools/stacker.py",
+      "sha256": "e5fc1b97a0b10fd5d6de204bc92b411754944d167f89c9f58ab2eafb9f64bda5",
+      "size": 12926
+    },
+    {
+      "destination": "src/Tools/update_manager.py",
+      "path": "Tools/update_manager.py",
+      "sha256": "87717b5c7dd08b41606c5f72b037bac5fce35c3e08ba9084af85f42ddc16209f",
+      "size": 17950
+    },
+    {
+      "destination": "src/Tools/user_preferences.py",
+      "path": "Tools/user_preferences.py",
+      "sha256": "1eb74da5cf3a3903d322c3fce7a9dd949fa19bb993fa880f8f0375e8a5237646",
+      "size": 1340
+    },
+    {
+      "destination": "src/Tools/zenodo_config.json",
+      "path": "Tools/zenodo_config.json",
+      "sha256": "c48b07aa89ddec7b4ce33c615a48e52287f04e00c8d353d99817e5b84b42e37b",
+      "size": 724
+    },
+    {
+      "destination": "src/Tools/zenodo_uploader.py",
+      "path": "Tools/zenodo_uploader.py",
+      "sha256": "f9639b2aeafa875b3f2feb3191a025c6dcac329afc226220a35e7b116b189b83",
+      "size": 23363
+    },
+    {
+      "destination": "src/UPDATER_RELEASE.md",
+      "path": "UPDATER_RELEASE.md",
+      "sha256": "8e9a5fa7b2cb216902aa418702ce45fcde77580422249491b69eba2ed447c666",
+      "size": 6971
+    },
+    {
+      "destination": "src/UserInterface/ImageSettingsDialog.ui",
+      "path": "UserInterface/ImageSettingsDialog.ui",
+      "sha256": "edbd053e3e176e77906b51304df94f4cb4ab2167bc66d64b47ce6529d7ee49c5",
+      "size": 12478
+    },
+    {
+      "destination": "src/UserInterface/Image_save_settings.py",
+      "path": "UserInterface/Image_save_settings.py",
+      "sha256": "0640660a478f47853ef1637f89ade3f488581a03acf029054a3d2ddf35b41d31",
+      "size": 7807
+    },
+    {
+      "destination": "src/UserInterface/InteractiveStaticLabel.py",
+      "path": "UserInterface/InteractiveStaticLabel.py",
+      "sha256": "426f9e5e66e125f7c5fada36fe9401bbde2ad4a90220bfea808ba09fed3e2696",
+      "size": 22897
+    },
+    {
+      "destination": "src/UserInterface/VAImagingcamera_settings.ui",
+      "path": "UserInterface/VAImagingcamera_settings.ui",
+      "sha256": "6f8e8662779061be0e27d074bfe7d4c8280938447c250e541c073cfecdaf1c2a",
+      "size": 9685
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/.gitkeep",
+      "path": "UserInterface/Wiki_Images/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/arduino_device_choice.png",
+      "path": "UserInterface/Wiki_Images/arduino_device_choice.png",
+      "sha256": "dba3e639478d696b4ce35a990479c6541552812b4b37e09df097521c35b529e4",
+      "size": 906162
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/arduino_install_ArduinoThread.png",
+      "path": "UserInterface/Wiki_Images/arduino_install_ArduinoThread.png",
+      "sha256": "4c2e438e028dcb126111fc2d2f58a38de654680a8180ff2f245ed1a8d724309f",
+      "size": 884973
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/arduino_library_manager.png",
+      "path": "UserInterface/Wiki_Images/arduino_library_manager.png",
+      "sha256": "0af318fec594c0e5018d1e245d8a1da077e92f0f17ba7645973668ed6e59ea1d",
+      "size": 455219
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/base_plate_explosion_arduino.png",
+      "path": "UserInterface/Wiki_Images/base_plate_explosion_arduino.png",
+      "sha256": "11f456ea155a5a1d93c8d8c40164f46527120bf00e9ba1b9973bf9265d60d45d",
+      "size": 142092
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/base_plate_final.jpg",
+      "path": "UserInterface/Wiki_Images/base_plate_final.jpg",
+      "sha256": "1db729863a1d9efd479c23095abd4fe97ef4b148016ca80f0886779b7e042673",
+      "size": 1609514
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/bearing_alignment.jpg",
+      "path": "UserInterface/Wiki_Images/bearing_alignment.jpg",
+      "sha256": "1c946623b303564e2ed65959aa0a6de8824b6f2628659dc98a140c8590caa658",
+      "size": 2473661
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/cable_brackets.JPG",
+      "path": "UserInterface/Wiki_Images/cable_brackets.JPG",
+      "sha256": "56048973fd31b7ce782198ccefef55db6516b160c3f94e4f446879edb03f0df1",
+      "size": 10539682
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/camera_carrier_explosion.png",
+      "path": "UserInterface/Wiki_Images/camera_carrier_explosion.png",
+      "sha256": "593c9c8a9aef8360fa35eb0d9f78b013eaeede92927d4ae36256761293d46a9e",
+      "size": 469447
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/camera_carrier_mounting.jpg",
+      "path": "UserInterface/Wiki_Images/camera_carrier_mounting.jpg",
+      "sha256": "1cff4b17f410b733b8983984578831e1345719bb5b89c9e95f60d53987ad1ca3",
+      "size": 1436315
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/centered_bearing.jpg",
+      "path": "UserInterface/Wiki_Images/centered_bearing.jpg",
+      "sha256": "0e3400153a259111bc550e397829c2822d91e0ca21e72df3e61ccbdc978d25c3",
+      "size": 1055343
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/clamps_explosion.png",
+      "path": "UserInterface/Wiki_Images/clamps_explosion.png",
+      "sha256": "9d106ea93eaefa2f90778db7a12e1c6c5dcb66d487f1859c5aaf8a90c4e800a5",
+      "size": 143721
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/cnc_shield_jumpers.png",
+      "path": "UserInterface/Wiki_Images/cnc_shield_jumpers.png",
+      "sha256": "3cc25f32916a65294905f2e5be61fe14fe42ad4894c43f85d63a259755b14dfe",
+      "size": 139365
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/coupler_distance.jpg",
+      "path": "UserInterface/Wiki_Images/coupler_distance.jpg",
+      "sha256": "80d879a441a5cf9f198e7fb78729d0b9e1caf4f0ae7bcb9aad64c183dd686d5d",
+      "size": 124162
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/diffuser_plates.jpg",
+      "path": "UserInterface/Wiki_Images/diffuser_plates.jpg",
+      "sha256": "57cd78f5971d443ec593698c7d3bb7171d03f0472b44f5f0e8e0fd08ee1f0bf6",
+      "size": 445090
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/drag_chain.jpg",
+      "path": "UserInterface/Wiki_Images/drag_chain.jpg",
+      "sha256": "b10be7071b096cb0391be661382c60709f678a06b959d37eb055f0cde0f56e69",
+      "size": 190264
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/drag_chain_bracket_explosion.png",
+      "path": "UserInterface/Wiki_Images/drag_chain_bracket_explosion.png",
+      "sha256": "5ba580f11f6e56f9f2491120a849b2f3b32a2b572b8d88bd1d9084b2345f6887",
+      "size": 130335
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/electronics_base.JPG",
+      "path": "UserInterface/Wiki_Images/electronics_base.JPG",
+      "sha256": "9f0e07cc7f37f17eedd260e28c19243ff73d68e47540303c15aa258fa9b8c544",
+      "size": 9710917
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/endswitch_cable.JPG",
+      "path": "UserInterface/Wiki_Images/endswitch_cable.JPG",
+      "sha256": "796c58bacfa27d4a9118e11202f8925b2524992a8662504b13311da3b88c7b87",
+      "size": 11060686
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/endswitch_circuit_diagram.png",
+      "path": "UserInterface/Wiki_Images/endswitch_circuit_diagram.png",
+      "sha256": "90be21a0a8bb592fd42edf5ae0820f5c85e92f73d60514844d7afd386c0b0066",
+      "size": 11308
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/endswitch_cnc_connection.png",
+      "path": "UserInterface/Wiki_Images/endswitch_cnc_connection.png",
+      "sha256": "dd8f2a31d5a7213538c270e026944275b93be99791c7708658c7a461b22eaaf1",
+      "size": 236430
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/fan_explosion.png",
+      "path": "UserInterface/Wiki_Images/fan_explosion.png",
+      "sha256": "a9241df8a2585042d77bcf4801c6c7c478d5a93cfdeb38e41b3b4f56ff4a4649",
+      "size": 439744
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/final_assembly_1.png",
+      "path": "UserInterface/Wiki_Images/final_assembly_1.png",
+      "sha256": "cdc2725b8e2b1fb61df72a0e50ce93702bd9d08f62ee3e35a32a0aa34b9263ae",
+      "size": 30259650
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/final_assembly_2.png",
+      "path": "UserInterface/Wiki_Images/final_assembly_2.png",
+      "sha256": "a5de561887f6cb35ba0a9bcd49a2df719b9ff3ac9bf1b111b2146c42c8ab9975",
+      "size": 7392763
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/lighting_base.JPG",
+      "path": "UserInterface/Wiki_Images/lighting_base.JPG",
+      "sha256": "dec53517f9fad9e8434c3bc1fae582dbfdedf8372f45033945cbb0acf9885328",
+      "size": 9870610
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/lighting_unit_explosion.png",
+      "path": "UserInterface/Wiki_Images/lighting_unit_explosion.png",
+      "sha256": "4b7c5639c58a9f9fdea379f2d9f5dd3693de6573a98a61428c628a8f4c30bb24",
+      "size": 275753
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/linear_top_explosion.png",
+      "path": "UserInterface/Wiki_Images/linear_top_explosion.png",
+      "sha256": "d89d280be34cfc1647e4c20589fe6ef109e466f713d0bca6cc544a494c33a6f7",
+      "size": 702174
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/power_supply_adapter_wiring.png",
+      "path": "UserInterface/Wiki_Images/power_supply_adapter_wiring.png",
+      "sha256": "2ecfb4b1a9a2f2276c03f64709d70a1ce7eee30e9e8d99f492fc6f50d260c6bd",
+      "size": 798588
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/power_supply_cables.jpg",
+      "path": "UserInterface/Wiki_Images/power_supply_cables.jpg",
+      "sha256": "137cbd028efe4529743108f710555b7481d4a2985f1556ce8f90bab9485100bb",
+      "size": 1659759
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/tilted_bearing.jpg",
+      "path": "UserInterface/Wiki_Images/tilted_bearing.jpg",
+      "sha256": "e86b70114271e479b5f705611fbbe467072aca704a804c581d0dab18dec888dc",
+      "size": 394297
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/top_alignment.jpg",
+      "path": "UserInterface/Wiki_Images/top_alignment.jpg",
+      "sha256": "0dfef1e291ce4c4758d5a29101dc9504fbe013e6d51143cadb3ffd6f9f6c936c",
+      "size": 761664
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/top_cable.JPG",
+      "path": "UserInterface/Wiki_Images/top_cable.JPG",
+      "sha256": "d3d9af2e4edd34434da61eb923fd607408a9a9aa050c8e22ae0dbce629a9187c",
+      "size": 1044778
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/top_lid.JPG",
+      "path": "UserInterface/Wiki_Images/top_lid.JPG",
+      "sha256": "e4d6cf0d5190b3a423132f4fd212516d2944d1e28f43e146c30cb79bf8464947",
+      "size": 1183416
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/u-profile_explosion.png",
+      "path": "UserInterface/Wiki_Images/u-profile_explosion.png",
+      "sha256": "b2deffafd6dbccfc5d735e831930727ecd01d552b67d1dca2a10e8530ad72587",
+      "size": 283010
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/usb_hub.jpg",
+      "path": "UserInterface/Wiki_Images/usb_hub.jpg",
+      "sha256": "581d708bcd9612aa7bf531ea54e783b29e8859eadb77e904372df5111cda2afc",
+      "size": 2475265
+    },
+    {
+      "destination": "src/UserInterface/Wiki_Images/wiring_overview.png",
+      "path": "UserInterface/Wiki_Images/wiring_overview.png",
+      "sha256": "c0005e3a3596e0428e6feed151b11db7daed254412c6c9ae234715dc06134b61",
+      "size": 108990
+    },
+    {
+      "destination": "src/UserInterface/camera_settings.ui",
+      "path": "UserInterface/camera_settings.ui",
+      "sha256": "adbd50737db0287ccd42544c80a338d60d474f66328371ae31f675c34245abe3",
+      "size": 8921
+    },
+    {
+      "destination": "src/UserInterface/checkable_combo_box.py",
+      "path": "UserInterface/checkable_combo_box.py",
+      "sha256": "a4cf4f6375e86f1e08e0204f3d6736e995fc2ed1dfe37540c5842a9f079bc2b3",
+      "size": 3957
+    },
+    {
+      "destination": "src/UserInterface/connection_error.ui",
+      "path": "UserInterface/connection_error.ui",
+      "sha256": "2fe68a7bfc60c399ca3501dd7763e2baa69720486319143a5d8c39ff0215f026",
+      "size": 3212
+    },
+    {
+      "destination": "src/UserInterface/dialog.ui",
+      "path": "UserInterface/dialog.ui",
+      "sha256": "7b994288b8dfb7fb1905a29d38e8f9e2450abae3570456d1695f90112777e798",
+      "size": 11090
+    },
+    {
+      "destination": "src/UserInterface/imgs/490-415-max.png",
+      "path": "UserInterface/imgs/490-415-max.png",
+      "sha256": "d296d22c79cced8ac0fefe276e30f9e0164e0f215c900fcc8141d1681055a87c",
+      "size": 22049
+    },
+    {
+      "destination": "src/UserInterface/imgs/ENIMAS.png",
+      "path": "UserInterface/imgs/ENIMAS.png",
+      "sha256": "c5d7c6da6ed72673b6fca863da1f1108c9ecd302ccd90b03b4611cf4902dd459",
+      "size": 1923982
+    },
+    {
+      "destination": "src/UserInterface/imgs/Insect.svg",
+      "path": "UserInterface/imgs/Insect.svg",
+      "sha256": "ac8d9660ebc862df6aac254ce9c06c0ddd6d9fc86c6cccf092e9b54319d48163",
+      "size": 30530
+    },
+    {
+      "destination": "src/UserInterface/imgs/Spinner.gif",
+      "path": "UserInterface/imgs/Spinner.gif",
+      "sha256": "81811b03c1f0d25f055a7048b5f8cf1e9d3580c1ed1756f61b36bd2132f694e4",
+      "size": 14183
+    },
+    {
+      "destination": "src/UserInterface/imgs/add-folder.png",
+      "path": "UserInterface/imgs/add-folder.png",
+      "sha256": "432d981a869899cccdd44315cacfde6dcd3afb07ec12e31094b602e4ccd6c57f",
+      "size": 13460
+    },
+    {
+      "destination": "src/UserInterface/imgs/add-insect.png",
+      "path": "UserInterface/imgs/add-insect.png",
+      "sha256": "d69016e3f2bec265b05648ed3ad4655c0c165728f75acb93cce150e346efdaac",
+      "size": 25992
+    },
+    {
+      "destination": "src/UserInterface/imgs/autofocus.png",
+      "path": "UserInterface/imgs/autofocus.png",
+      "sha256": "cdb63ee69bfb6c42d05d5e42bcf35aeb93f185552116579f30118b1e68c9c9e8",
+      "size": 4079
+    },
+    {
+      "destination": "src/UserInterface/imgs/browse_dirs.png",
+      "path": "UserInterface/imgs/browse_dirs.png",
+      "sha256": "69807a77270f7b299872b2de02d05899d4ba7015dad689f30ce659f2b9bdbb0c",
+      "size": 14989
+    },
+    {
+      "destination": "src/UserInterface/imgs/camera_settings.png",
+      "path": "UserInterface/imgs/camera_settings.png",
+      "sha256": "2b22517b2b26d76d61a75d22cdad700db52be29d2b3252dd4973bfe0a9be8a26",
+      "size": 30200
+    },
+    {
+      "destination": "src/UserInterface/imgs/dektop_icon.png",
+      "path": "UserInterface/imgs/dektop_icon.png",
+      "sha256": "19e5a3f32852432957de10245bb441d0412a23bf27dbbbb7a78d826610bfee40",
+      "size": 20341
+    },
+    {
+      "destination": "src/UserInterface/imgs/down_arrow.png",
+      "path": "UserInterface/imgs/down_arrow.png",
+      "sha256": "7209748a8ce960f5486296ed2c1c234c254e70560ff11bdf21763774d483f3e2",
+      "size": 6398
+    },
+    {
+      "destination": "src/UserInterface/imgs/enimas_Icon.ico",
+      "path": "UserInterface/imgs/enimas_Icon.ico",
+      "sha256": "03c707c947eb1afbceed21497d15cc003c2cfe9fb2f8500d61bd98ce5ff7dd84",
+      "size": 15252
+    },
+    {
+      "destination": "src/UserInterface/imgs/enimas_icon.png",
+      "path": "UserInterface/imgs/enimas_icon.png",
+      "sha256": "3d53ed309f1d54659f46f25e23da4c6dfbfd0e8c9ccc6ab082d8265f33ad239e",
+      "size": 379983
+    },
+    {
+      "destination": "src/UserInterface/imgs/entomoscope_logo.png",
+      "path": "UserInterface/imgs/entomoscope_logo.png",
+      "sha256": "b2eb39bc748c28f7f01bab2c87e5c993aa7ac57e2a272b128f42f2f847826766",
+      "size": 48871
+    },
+    {
+      "destination": "src/UserInterface/imgs/lens-icon.png",
+      "path": "UserInterface/imgs/lens-icon.png",
+      "sha256": "792de67c9b5d1b2e4c614cc5c5ef06daece87302e4ebf5e8610ac38a1fcc9d6c",
+      "size": 6267
+    },
+    {
+      "destination": "src/UserInterface/imgs/reference_axis.png",
+      "path": "UserInterface/imgs/reference_axis.png",
+      "sha256": "678e5ad4ed48f7bb9f442797c97a0e7a97c9a1b2e9ed0d8a040f22f4dc8cc667",
+      "size": 4506
+    },
+    {
+      "destination": "src/UserInterface/imgs/take_single_image.png",
+      "path": "UserInterface/imgs/take_single_image.png",
+      "sha256": "03eb2e122a178856e635feadf4935bc9b42fff2b809a66bbf1a1ead9d8b3e69f",
+      "size": 4649
+    },
+    {
+      "destination": "src/UserInterface/imgs/take_stack.png",
+      "path": "UserInterface/imgs/take_stack.png",
+      "sha256": "bd32fa5ac5fd9c230b952c2bbf592fd465fd2b634a74ad5cdf83d0018f1996cd",
+      "size": 10657
+    },
+    {
+      "destination": "src/UserInterface/imgs/up_arrow.png",
+      "path": "UserInterface/imgs/up_arrow.png",
+      "sha256": "41d469d19ac52e01ab6e4fbb41abd3f5f31668e2d73f498b20a849954bf9062e",
+      "size": 6320
+    },
+    {
+      "destination": "src/UserInterface/imgs/zenodo-icon-blue.ico",
+      "path": "UserInterface/imgs/zenodo-icon-blue.ico",
+      "sha256": "294c366837e66677cd1afee752072132d33c54ae2f0d1e204dbb066d5043df72",
+      "size": 9261
+    },
+    {
+      "destination": "src/UserInterface/logo_screen.ui",
+      "path": "UserInterface/logo_screen.ui",
+      "sha256": "f7a924209a114bd969736b8f1da032203e221d2c1d78b6a420c7098e8d59650a",
+      "size": 758
+    },
+    {
+      "destination": "src/UserInterface/main.ui",
+      "path": "UserInterface/main.ui",
+      "sha256": "169720456a128bec3b715ed6305a76482e768cf8f96267b400e18ef3b161a4ab",
+      "size": 92072
+    },
+    {
+      "destination": "src/UserInterface/method_selection.py",
+      "path": "UserInterface/method_selection.py",
+      "sha256": "363685e26df864c1ca419dea4fa844be22aafd94befe586dcfb0d1a256dea57a",
+      "size": 6076
+    },
+    {
+      "destination": "src/UserInterface/plugin_manager.py",
+      "path": "UserInterface/plugin_manager.py",
+      "sha256": "6c3e5805c290e8c1e63506f397b4e747ffa9fc01f041235dea14a5c30d07f5f3",
+      "size": 2078
+    },
+    {
+      "destination": "src/UserInterface/stacking_method_dialog.ui",
+      "path": "UserInterface/stacking_method_dialog.ui",
+      "sha256": "5fad1cfe1b44136628a5d5f20d728c4e49270f8414d2c72254e21df885e8b47d",
+      "size": 7457
+    },
+    {
+      "destination": "src/UserInterface/ui.py",
+      "path": "UserInterface/ui.py",
+      "sha256": "e060110e7f62eb873b7e26d3c730b5b0c16d5d26ba2b0101f510e9d8fd1cbc32",
+      "size": 235702
+    },
+    {
+      "destination": "src/User_Guide.docx",
+      "path": "User_Guide.docx",
+      "sha256": "e597432480a32225db4c226c8d80421743b7cfa31ec28f040d2c756e5d4fd315",
+      "size": 13922088
+    },
+    {
+      "destination": "src/User_Guide.pdf",
+      "path": "User_Guide.pdf",
+      "sha256": "ff9edf5bddfa8a2a998503419a4cf7b6779319aa07441a853e7f7a06e53c9f7b",
+      "size": 1251364
+    },
+    {
+      "destination": "src/VAImagingcam/ImageConvert.py",
+      "path": "VAImagingcam/ImageConvert.py",
+      "sha256": "7a828c169df440caeb31e87979129312d9e76da5419885ff43a9e3581011138c",
+      "size": 8352
+    },
+    {
+      "destination": "src/VAImagingcam/VAImagingcam.py",
+      "path": "VAImagingcam/VAImagingcam.py",
+      "sha256": "cb2f960e1e925462792faea24b6a4fb4f437686368fd3942508b7c83914f4957",
+      "size": 9032
+    },
+    {
+      "destination": "src/constants.py",
+      "path": "constants.py",
+      "sha256": "7e46432174d6a309960d67aee5354b1d042e72bc0e3602a388a5056bca7d3a31",
+      "size": 2601
+    },
+    {
+      "destination": "src/docs/superpowers/plans/2026-08-12-installer-repair-preferences.md",
+      "path": "docs/superpowers/plans/2026-08-12-installer-repair-preferences.md",
+      "sha256": "31551d2821c7a6e1ef01171283eacc2960c77e61f0fd8102a146dc6163c8dfaa",
+      "size": 15111
+    },
+    {
+      "destination": "src/docs/superpowers/specs/2026-08-12-installer-repair-preferences-design.md",
+      "path": "docs/superpowers/specs/2026-08-12-installer-repair-preferences-design.md",
+      "sha256": "af15db922f9c1be9f7c2e3ec0be5a0ff3b578373bc5421090aadeafded1c2384",
+      "size": 5508
+    },
+    {
+      "destination": "src/error_handler.py",
+      "path": "error_handler.py",
+      "sha256": "734852c8da9392e895ad5060c787807658ba779a8dee5212380a0a610b816a20",
+      "size": 620
+    },
+    {
+      "destination": "src/install.bat",
+      "path": "install.bat",
+      "sha256": "5d45c352092e67824d86bddcb5d1dc865e4fc94ff38787cfc9adb4b0af9e3bec",
+      "size": 45728
+    },
+    {
+      "destination": "src/main.py",
+      "path": "main.py",
+      "sha256": "0fdebf36cbc120994bb9bc0e17a2d8a1f008b01b631221de3d60c22bd1a31ae0",
+      "size": 15180
+    },
+    {
+      "destination": "src/models/cropping/insect_crop.onnx",
+      "path": "models/cropping/insect_crop.onnx",
+      "sha256": "c2596960f2b9724c4d96952cadd98f7e4a66727578f04d3fa8cf494216114c16",
+      "size": 12238124
+    },
+    {
+      "destination": "src/models/obb/yolov8m_obb3_best.onnx",
+      "path": "models/obb/yolov8m_obb3_best.onnx",
+      "sha256": "6f627ec86529308b1f6350e4a5ad361a1ed3a5f204787f24e9a15a6a906819a8",
+      "size": 105926892
+    },
+    {
+      "destination": "src/plugins/Uniform_Background/plugin.py",
+      "path": "plugins/Uniform_Background/plugin.py",
+      "sha256": "f49b0877df99586ff052a34d78a26a2fb0b0133698cc103b3b01c4d1bb7afd80",
+      "size": 12671
+    },
+    {
+      "destination": "src/plugins/Uniform_Background/plugin.ui",
+      "path": "plugins/Uniform_Background/plugin.ui",
+      "sha256": "103210479b3cfa58f9f3cc76ec79ccc467e7128287fde4186854f536247374b6",
+      "size": 16036
+    },
+    {
+      "destination": "src/plugins/classification/plugin.py",
+      "path": "plugins/classification/plugin.py",
+      "sha256": "56deb4a5a3cfc3e2d97b0ad8ed21f62e963aa1ea818cf1e9347c3be604d0b217",
+      "size": 17994
+    },
+    {
+      "destination": "src/plugins/classification/plugin.ui",
+      "path": "plugins/classification/plugin.ui",
+      "sha256": "17b0b20671c526cec5af87b57244db2210b84d5c792546cd970ef9fd2f203018",
+      "size": 17447
+    },
+    {
+      "destination": "src/plugins/cropping/plugin.py",
+      "path": "plugins/cropping/plugin.py",
+      "sha256": "8b3dd1089438f1885a88afb635520ff20c9300d57759d236b93b540bc9595f80",
+      "size": 14999
+    },
+    {
+      "destination": "src/plugins/cropping/plugin.ui",
+      "path": "plugins/cropping/plugin.ui",
+      "sha256": "4ff6b6815d8cbe9d4516daab1c2736af886b5b4417f53c6581523a945c2598d9",
+      "size": 14074
+    },
+    {
+      "destination": "src/plugins/measurement/plugin.py",
+      "path": "plugins/measurement/plugin.py",
+      "sha256": "c33a0688c08b5ab23850d4787fee9334cfa703f75887bcdd4d45a0557a895cbf",
+      "size": 22195
+    },
+    {
+      "destination": "src/plugins/measurement/plugin.ui",
+      "path": "plugins/measurement/plugin.ui",
+      "sha256": "dc0a7ed1ea92d6e5c3a330eef5d9207d0bb3bef308b8333ca196700550eefd48",
+      "size": 20516
+    },
+    {
+      "destination": "src/plugins/stack_export/plugin.py",
+      "path": "plugins/stack_export/plugin.py",
+      "sha256": "72a191c3b6e8f72adc109e6f9edfd6a786bf8cb3c601284af6c7da1bbebfab96",
+      "size": 14192
+    },
+    {
+      "destination": "src/process_cleanup.py",
+      "path": "process_cleanup.py",
+      "sha256": "51b36ee8ecd755b062169f0e31168078204a2a08deb9985d580f0a2989ee5ca2",
+      "size": 1624
+    },
+    {
+      "destination": "src/requirements.lock",
+      "path": "requirements.lock",
+      "sha256": "44f27f2c92b98afbcc491aa06a89142df7304c4da0c59b61558a554b36671c22",
+      "size": 126940
+    },
+    {
+      "destination": "src/requirements.txt",
+      "path": "requirements.txt",
+      "sha256": "18acefc5046f9fbac554b1445bc30c3c9fb54f399b60ba0bc2a32e3dd5a100b7",
+      "size": 736
+    },
+    {
+      "destination": "src/vendor/README.md",
+      "path": "vendor/README.md",
+      "sha256": "629bb502599b9c75a957e3b25c75aa23e70620a3cf08a9017f33972c8b12723d",
+      "size": 442
+    },
+    {
+      "destination": "src/vendor/refiners-0.4.0-py3-none-any.whl",
+      "path": "vendor/refiners-0.4.0-py3-none-any.whl",
+      "sha256": "c4a92663e4f735659049ab6cfabd1d1c5d8613df77852f2c6244e792af6d804a",
+      "size": 1552599
+    }
+  ],
+  "pip_download_args": [
+    "--extra-index-url",
+    "https://download.pytorch.org/whl/cpu"
+  ],
+  "release_date": "2026-08-12",
+  "release_notes": "## [1.4.11] - 2026-08-12\n\n### Fixed\n- Retry after an existing-installation update failure now rechecks the updater normally instead of reusing the menu choice exit code and immediately returning to the failure menu\n- Elevated maintenance carries its one-time connection and operation parameters in the encoded child command, so approving UAC with a separate administrator account no longer depends on inheriting ENIMAS-specific environment variables\n- Windows users with an exact Microsoft Entra SID shape (`S-1-12-1-a-b-c-d`) are accepted when their local Windows profile exists; existing local and domain SID handling is unchanged\n- A failed hash-pinned dependency installation now retains the pip exit code in rollback diagnostics\n\n### Safety\n- Elevated targets, internal operations, caller SIDs, named-pipe access restrictions, timeouts, and protected installer validation remain enforced; encoding transports the parameters but does not replace those trust checks\n- Camera application code, Python, dependencies, camera-driver binaries, SDK binaries, motor firmware, virtual environments, lenses, models, plugins, outputs, and existing user data are unchanged",
+  "removed": [
+    "src/git/Git-2.50.1-64-bit.exe",
+    "src/update.bat"
+  ],
+  "repository_raw_url": "https://gitlab.kit.edu/kit/iai/ber/enimas2/-/raw/{ref}",
+  "requirements_sha256": "44f27f2c92b98afbcc491aa06a89142df7304c4da0c59b61558a554b36671c22",
+  "schema_version": 1,
+  "source_ref": "v1.4.11",
+  "system_files": [
+    {
+      "path": "camera-driver/README.md",
+      "sha256": "1dfc1228ae52540159b7eac183b9e1bd733124b5c84763b1a7c164666ea35849",
+      "size": 737
+    },
+    {
+      "path": "camera-driver/Vaimaging/Galaxy_Windows_EN_32bits-64bits_2.3.2410.9292.exe",
+      "sha256": "57f89b3977781bbe62a0fd7c5c1359bcf256ddfc98c2db7296d5a0851b8ea863",
+      "size": 138849155
+    },
+    {
+      "path": "camera-driver/x64/WdfCoinstaller01011.dll",
+      "sha256": "f6fb39a8578f19616570d5a3dc7212c84a9da232b30a03376bbf08f4264fedf2",
+      "size": 1795952
+    },
+    {
+      "path": "camera-driver/x64/cyusb3.cat",
+      "sha256": "eb2358734e7fe54c238bb097f989a8bfc37882809d2f3ed6fb05bfc0ad30fc32",
+      "size": 10947
+    },
+    {
+      "path": "camera-driver/x64/cyusb3.inf",
+      "sha256": "79c2d112f4a5df02c2ba2d85f9e260e0834e40003c1d4108df0ffe0df69b6010",
+      "size": 4080
+    },
+    {
+      "path": "camera-driver/x64/cyusb3.sys",
+      "sha256": "9f6b6a5625dc3001a4e16308366b1fb634a5b9d9f482c36c42352cc272cdf8a1",
+      "size": 63160
+    },
+    {
+      "path": "camera-driver/x86/WdfCoinstaller01011.dll",
+      "sha256": "c7649879a10c9332fc0f9744c7e3224647aee9e7e62c7e21cf9e987462e3dd06",
+      "size": 1629040
+    },
+    {
+      "path": "camera-driver/x86/cyusb3.cat",
+      "sha256": "8fb308e7d568f9ee77daf7c80e2888174602cb600590d6f012818653e0fed640",
+      "size": 10946
+    },
+    {
+      "path": "camera-driver/x86/cyusb3.inf",
+      "sha256": "79c2d112f4a5df02c2ba2d85f9e260e0834e40003c1d4108df0ffe0df69b6010",
+      "size": 4080
+    },
+    {
+      "path": "camera-driver/x86/cyusb3.sys",
+      "sha256": "da4501ca1e65f25ace0df6b968fd75242cc657d1945f76854cbb2efd919c7b51",
+      "size": 53944
+    }
+  ],
+  "system_update_required": false,
+  "updater": {
+    "path": "Tools/enimas_updater.py",
+    "sha256": "a7740f890e9a58d2a4de3fa0bfa77618b023d6569bbe87b4a24fea3caf2c2651"
+  },
+  "version": "1.4.11"
+}

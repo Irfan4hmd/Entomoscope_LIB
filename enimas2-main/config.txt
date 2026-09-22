@@ -1,0 +1,9 @@
+version=1.4.11
+image-extension=tiff
+stack-output-extension=tiff
+show-scalebar=false
+stack-speed=50
+number-of-stacks=7
+stack-step-size=0.55
+helicon-path=C:\Program Files\Helicon Software\Helicon Focus 8\HeliconFocus.exe
+base-directory=C:\Users\es4994.KIT.001\Pictures\ENIMAS

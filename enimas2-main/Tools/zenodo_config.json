@@ -1,0 +1,20 @@
+{
+    "_comment": "Configuration file for the Zenodo uploader",
+    "google_drive": {
+        "_comment": "Google Drive configuration for initial file upload",
+        "folder_id": "17J58vN7dA5oPN89wG9ibOF5V9m6n6-R1",
+        "credentials_path": "./Tools/pydrive-zenodo-435114-dc8f101d8de4.json"
+    },
+    "github": {
+        "_comment": "Leave token empty. Provide it via the GITHUB_TOKEN environment variable.",
+        "token": "",
+        "repository": "darktaxon/mfn-malaisetrap"
+    },
+    "zenodo": {
+        "_comment": "Zenodo API configuration",
+        "base_url": "https://sandbox.zenodo.org",
+        "timeout_seconds": 600,
+        "check_interval_seconds": 5,
+        "request_timeout": 10
+    }
+}
