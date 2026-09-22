@@ -69,6 +69,10 @@ STACK_CAPTURE_DISCARD_FRAMES = 2
 STACK_CAPTURE_MAX_ATTEMPTS = 3
 STACK_CAPTURE_TIMEOUT = 6.0
 AUTOFOCUS_CAPTURE_TIMEOUT = 3.0
+
+# Distance in mm the stage always keeps clear of its lowest reachable point, so
+# that a lens can never be driven onto the specimen or the base plate.
+AXIS_SAFETY_MARGIN = 35
 SINGLE_CAPTURE_MAX_ATTEMPTS = 2
 SINGLE_CAPTURE_TIMEOUT = 3.0
 

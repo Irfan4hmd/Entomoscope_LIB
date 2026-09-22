@@ -116,7 +116,7 @@ class Axis:
             self.move_for(dz, **kw)
    
     def check_limit(self, requested_lenght):
-        if self._referenced and (0 <= (self.z + requested_lenght) <= (self.lower_limit-20)):
+        if self._referenced and (0 <= (self.z + requested_lenght) <= (self.lower_limit - constants.AXIS_SAFETY_MARGIN)):
             return True
         logger.debug(f"Request out of limit: {self.z + requested_lenght}")
         return False
@@ -134,7 +134,8 @@ class Axis:
     def axis_reference(self, timeout=30):
         """Send reference command and wait for confirmation.
 
-        Returns True on success, False on timeout or missing Arduino.
+        Returns True on success, False on a firmware abort, timeout or
+        missing Arduino.
         """
         if self.queue:
             self.stop()
@@ -145,10 +146,26 @@ class Axis:
 
         self.arduino.write(b'n')
 
+        # The firmware answers with Serial.print and no newline, so a reply can
+        # arrive split over several reads. Accumulate instead of testing each
+        # read on its own, otherwise a split token wastes the whole timeout.
+        buffer = ""
         deadline = time() + timeout
         while time() < deadline:
-            response = self.arduino.readline().decode("ascii")
-            if response.endswith("eferenced"):
+            try:
+                buffer += self.arduino.readline().decode("ascii", "ignore")
+            except serial.SerialException as e:
+                logger.error(f"Serial error while referencing: {e}")
+                return False
+            buffer = buffer[-64:]
+
+            if "ref_failed" in buffer:
+                logger.error("Axis reference aborted by the controller — the "
+                             "endstop switch was never reached. Check the "
+                             "endstop switch and the motor wiring.")
+                return False
+
+            if "eferenced" in buffer:
                 self.z = 0.0
                 self._referenced = True
                 self.motor.set_speed(constants.LOW_SPEED)

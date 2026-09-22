@@ -1667,7 +1667,7 @@ class MainWindow(QMainWindow):
             )
             return
         if not self.lens_approved:
-            if not self.approve_lens(self.current_lens, "The camera is going to move to the lowest point."):
+            if not self.approve_lens(self.current_lens, "The camera is going to move up and then search downwards for the focus point."):
                 return 
             self.lens_approved = True
         
@@ -1735,9 +1735,22 @@ class MainWindow(QMainWindow):
             sleep(min(interval, remaining))
         return not self._autofocus_should_stop()
 
+    def _autofocus_max_z(self):
+        """Deepest z autofocus may drive to, honouring every known limit.
+
+        ``axis.lower_limit`` is derived from the configured lens length and can
+        land beyond the physical travel when the lens is short, so the travel is
+        applied as a second, independent guard.
+        """
+        limit = float(self.axis.lower_limit) - constants.AXIS_SAFETY_MARGIN
+        axis_length = float(getattr(self, "axis_length", 0) or 0)
+        if axis_length > 0:
+            limit = min(limit, axis_length - constants.AXIS_SAFETY_MARGIN)
+        return max(0.0, limit)
+
     def _autofocus_clamp_z(self, z, max_valid_z=None):
         if max_valid_z is None:
-            max_valid_z = max(0.0, self.axis.lower_limit - 20)
+            max_valid_z = self._autofocus_max_z()
         return max(0.0, min(float(z), float(max_valid_z)))
 
     def _autofocus_move_to(self, pos, wait=True, speed=None):
@@ -1901,12 +1914,15 @@ class MainWindow(QMainWindow):
         peak_decline_count=3,
         min_samples_before_stop=8,
     ):
-        max_valid_z = max(0.0, self.axis.lower_limit - 20)
-        start = self._autofocus_clamp_z(center_z + half_range, max_valid_z)
-        end = self._autofocus_clamp_z(center_z - half_range, max_valid_z)
-        if start < end:
+        max_valid_z = self._autofocus_max_z()
+        start = self._autofocus_clamp_z(center_z - half_range, max_valid_z)
+        end = self._autofocus_clamp_z(center_z + half_range, max_valid_z)
+        if start > end:
             start, end = end, start
 
+        # Enter the window from the retracted side and work downwards, so the
+        # stage stops as soon as the peak is passed instead of first dropping
+        # below the focus plane.
         positions = self._autofocus_positions(start, end, step)
         return self._autofocus_scan_positions(
             positions,
@@ -1956,12 +1972,14 @@ class MainWindow(QMainWindow):
         verify_step = 0.15
         rescue_step = 0.1
         fine_half_range = 1.2
-        fine_center_bias = 0.6
+        # Shifts the fine window back against the coarse travel direction to
+        # compensate the small reading lag of the sharpness measurement. The
+        # coarse scan descends, so the correction moves the window upwards.
+        fine_center_bias = -0.6
         verify_half_range = 0.15
         rescue_half_range = 0.1
         backlash = 0.4
         backlash_settle_time = 0.08
-        max_valid_z = max(0.0, self.axis.lower_limit - 20)
         coarse_settle_time = 0.06
         coarse_n_samples = 1
         coarse_discard_frames = 1
@@ -1979,11 +1997,29 @@ class MainWindow(QMainWindow):
         verify_trigger_ratio = 0.85
         rescue_trigger_ratio = 0.82
 
+        descent_started = False
+        focus_locked = False
+        retract_z = 0.0
         try:
             self._autofocus_prepare_capture()
 
-            logger.debug(f"autofocus move to lowest point z={max_valid_z:.3f}")
-            coarse_positions = self._autofocus_positions(max_valid_z, 0.0, coarse_step)
+            max_valid_z = self._autofocus_max_z()
+
+            # Search downwards from the retracted position instead of dropping
+            # to the lowest point first. The stage then never travels deeper
+            # than the focus plane, so a lens can no longer be driven onto the
+            # specimen while hunting for focus.
+            retract_z = self._autofocus_clamp_z(0.0, max_valid_z)
+            logger.debug(
+                f"autofocus retract to z={retract_z:.3f}, then descend to at most z={max_valid_z:.3f}"
+            )
+            self._autofocus_move_to(retract_z, wait=True, speed=constants.DEFAULT_SPEED)
+            if self.stop:
+                return
+            # Past this point the stage can be left part-way down the search.
+            descent_started = True
+
+            coarse_positions = self._autofocus_positions(retract_z, max_valid_z, coarse_step)
             coarse_samples, ok = self._autofocus_scan_positions(
                 coarse_positions,
                 settle_time=coarse_settle_time,
@@ -1994,7 +2030,7 @@ class MainWindow(QMainWindow):
                 stop_after_peak=True,
                 peak_drop_ratio=0.7,
                 peak_decline_count=3,
-                min_samples_before_stop=8,
+                min_samples_before_stop=5,
             )
             if not ok:
                 self._autofocus_handle_camera_failure()
@@ -2040,6 +2076,7 @@ class MainWindow(QMainWindow):
 
             best_final = best_fine
             self._autofocus_move_to_with_backlash(best_final["z"], backlash=backlash, settle_time=backlash_settle_time)
+            focus_locked = True
             if self.stop:
                 return
 
@@ -2142,6 +2179,14 @@ class MainWindow(QMainWindow):
             logger.exception("Error during autofocus")
             self.autofocus_error_signal.emit(f"Autofocus stopped: {e}")
         finally:
+            if descent_started and not focus_locked and not self.stop:
+                # No focus was reached, so the stage is parked somewhere along
+                # the descent. Retract it rather than leaving the lens low over
+                # the specimen. A user abort is left alone on purpose.
+                try:
+                    self._autofocus_move_to(retract_z, wait=True, speed=constants.DEFAULT_SPEED)
+                except Exception:
+                    logger.exception("Could not retract the stage after a failed autofocus")
             try:
                 self._autofocus_finish_capture()
             except Exception as e:
@@ -3204,9 +3249,11 @@ class MainWindow(QMainWindow):
         if self.axis_length == 0:
             print("Axis length is 0, no new limit.")
             return
-        if self.current_lens.lenght <= self.sensor_distance:
-            new_limit = self.axis_length
         new_limit = self.axis_length - self.current_lens.lenght + self.sensor_distance
+        # A lens shorter than the sensor-to-base-plate distance makes the
+        # formula exceed the physical travel, which would let the stage be
+        # driven past its lowest point. The travel always wins.
+        new_limit = min(new_limit, self.axis_length)
         self.axis.set_current_limit(new_limit)
         logger.debug(f"New limit set to {new_limit}mm for lens: {self.current_lens.name}")
         print(f"New limit set to {new_limit}mm for lens: {self.current_lens.name}")
