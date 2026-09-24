@@ -5,20 +5,27 @@ from pathlib import Path
 APP_VERSION = "1.4.11"
 
 # ungefähre Motorgeschwindigkeit in Umdrehungen/s
-DEFAULT_SPEED = 5
+DEFAULT_SPEED = 3
 LOW_SPEED = 2
-MAX_SPEED = 6
+MAX_SPEED = 4
 
 """
 N: New version PI2AI
 S: Short version PIs
 """
-# linear Achse länge in mm
-AXIS_LENGHT = 343
-AXIS_LENGHT_S = 300
+# Linear axis length in mm: zero point to the highest slide point.
+# This machine's rail is 300mm (measured), against 343mm in the reference
+# build. It is read only by the "Entomoscope PI" profile; the PIs and PI2AI
+# profiles use their own TRAVEL_LENGHT_* below.
+AXIS_LENGHT = 300
+AXIS_LENGHT_S = 300  # unused - nothing reads this
 
-TRAVEL_LENGHT_N = 200  # maximaler bewegungsbereich der linearen Achse in mm
-SENSOR_TO_BASE_PLATE_N = 70  # Sensor zu Basisplatte bei höchster Position in mm
+# Usable movement range of the linear axis in mm. This is NOT the rail length:
+# the carriage and end clearances take up the difference. These are the values
+# that bound how deep the stage may go, so raising one lets the lens travel
+# further down. Only change them against a measured travel.
+TRAVEL_LENGHT_N = 200
+SENSOR_TO_BASE_PLATE_N = 70  # sensor to base plate at the LOWEST position, in mm
 
 TRAVEL_LENGHT_S = 216
 SENSOR_TO_BASE_PLATE_S = 20
@@ -39,9 +46,15 @@ sensor to base plate at lowest point: 70mm
 
 HELICON_PATH = "undefined"
 
-MICROSTEPS = 16
+# Microstepping set on the stepper driver. This MUST match the driver's jumpers:
+# it scales steps-per-mm, and a value larger than the hardware uses makes the
+# stage travel further than the software books, which is how the lens reaches
+# the base plate while every soft limit still reads as satisfied.
+# 8 agrees with the firmware's own note in servo.ino ("1 step = 1.8/8 = 0.225")
+# and with the measured travel. If you change the driver to 1/16, set 16 here.
+MICROSTEPS = 8
 ROTATION_HEIGHT = 10
-ROTATION_HEIGHT_N = 8
+ROTATION_HEIGHT_N = 8   # measured: 8mm lead screw on this machine
 
 STACK_SPEED = 50
 
@@ -73,6 +86,12 @@ AUTOFOCUS_CAPTURE_TIMEOUT = 3.0
 # Distance in mm the stage always keeps clear of its lowest reachable point, so
 # that a lens can never be driven onto the specimen or the base plate.
 AXIS_SAFETY_MARGIN = 35
+
+# How long to wait for the Arduino's reply to a single move before giving up.
+# A full traverse at LOW_SPEED takes about 13s, so this is generous: it only
+# fires when the controller has genuinely stopped answering, and it is what
+# stops a blocking move from waiting on that reply forever.
+AXIS_MOVE_REPLY_TIMEOUT = 60
 SINGLE_CAPTURE_MAX_ATTEMPTS = 2
 SINGLE_CAPTURE_TIMEOUT = 3.0
 

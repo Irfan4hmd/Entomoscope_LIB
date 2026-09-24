@@ -52,7 +52,11 @@ void setup() {
     pinMode(Y_STOP, INPUT_PULLUP);
 
     digitalWrite(EN, HIGH);
-    digitalWrite(Y_DIR, HIGH);
+    // via set_direction so that the direction flag matches the pin from the
+    // start: stop() signs the remaining step count by that flag, so a stop
+    // arriving before the first move command would otherwise report it
+    // backwards and the host would correct its position the wrong way.
+    set_direction(HIGH);
 
     motor.onRun(move_motor);
     read.onRun(read_input);
