@@ -659,6 +659,7 @@ class MainWindow(QMainWindow):
     single_capture_error_signal = pyqtSignal(str)
     manual_move_error_signal = pyqtSignal(str)
     manual_move_finished_signal = pyqtSignal()
+    axis_reference_lost_signal = pyqtSignal()
     _last_image_path=''
     
     def __init__(self, axis: Axis, camera, cam_type):
@@ -697,6 +698,7 @@ class MainWindow(QMainWindow):
         self.single_capture_ready_signal.connect(self._handle_single_capture_ready)
         self.single_capture_error_signal.connect(self._handle_single_capture_error)
         self.manual_move_error_signal.connect(self._show_manual_move_error)
+        self.axis_reference_lost_signal.connect(self.invalidate_axis_reference)
         self.manual_move_finished_signal.connect(self._finish_manual_move_ui)
 
         self.detected_box = None   
@@ -1314,21 +1316,25 @@ class MainWindow(QMainWindow):
             self.classification_results_viewer.set_text("Please reference axis")
             self.current_device_name = device_name
             if self.current_device_name == "Entomoscope PI":
+                self.axis.set_rotation_height(constants.ROTATION_HEIGHT)
                 self.axis_length = constants.AXIS_LENGHT
                 self.sensor_distance = 0
+                self.axis.set_travel_limit(self.axis_length)
                 self.set_new_limit()
                 self.current_lens.base_focus_height = self.current_lens.base_focus_height_arducam_old
             elif self.current_device_name == "Entomoscope PIs":
+                self.axis.set_rotation_height(constants.ROTATION_HEIGHT)
                 self.axis_length = constants.TRAVEL_LENGHT_S
                 self.sensor_distance = constants.SENSOR_TO_BASE_PLATE_S
+                self.axis.set_travel_limit(self.axis_length)
                 self.set_new_limit()
                 self.current_lens.base_focus_height = self.current_lens.base_focus_height_arducam
             elif self.current_device_name == "Entomoscope PI2AI":
                 
-                self.axis.DIST_STEPS = 360 * constants.MICROSTEPS / 1.8 / constants.ROTATION_HEIGHT_N
-                self.axis.STEPS_DIST = 1 / self.axis.DIST_STEPS
+                self.axis.set_rotation_height(constants.ROTATION_HEIGHT_N)
                 self.axis_length = constants.TRAVEL_LENGHT_N
                 self.sensor_distance = constants.SENSOR_TO_BASE_PLATE_N
+                self.axis.set_travel_limit(self.axis_length)
                 self.set_new_limit()
                 self.current_lens.base_focus_height = self.current_lens.base_focus_height_vaimaging
             self.device_selected = True
@@ -1666,11 +1672,24 @@ class MainWindow(QMainWindow):
                 10000,
             )
             return
+        if self.camera is None:
+            # Without a camera every sharpness reading is noise, so the search
+            # can never find a peak and simply descends the whole travel. Refuse
+            # rather than drive the stage down towards the specimen for nothing.
+            QMessageBox.warning(
+                self,
+                "No camera connected",
+                "Autofocus needs a working camera, and none could be opened.\n\n"
+                "The focus search would move the stage down without ever being "
+                "able to find focus, so it has not been started. Reconnect the "
+                "camera, restart ENIMAS, and try again.",
+            )
+            return
         if not self.lens_approved:
             if not self.approve_lens(self.current_lens, "The camera is going to move up and then search downwards for the focus point."):
-                return 
+                return
             self.lens_approved = True
-        
+
         self.stop = False
         self._autofocus_active = True
         self.take_single_picture_bttn.setEnabled(False)
@@ -1738,11 +1757,11 @@ class MainWindow(QMainWindow):
     def _autofocus_max_z(self):
         """Deepest z autofocus may drive to, honouring every known limit.
 
-        ``axis.lower_limit`` is derived from the configured lens length and can
-        land beyond the physical travel when the lens is short, so the travel is
-        applied as a second, independent guard.
+        The axis owns the boundary, so defer to ``axis.max_z`` and only narrow
+        it further with this device's configured travel. It is never widened
+        here, so the two can never disagree in the dangerous direction.
         """
-        limit = float(self.axis.lower_limit) - constants.AXIS_SAFETY_MARGIN
+        limit = float(self.axis.max_z)
         axis_length = float(getattr(self, "axis_length", 0) or 0)
         if axis_length > 0:
             limit = min(limit, axis_length - constants.AXIS_SAFETY_MARGIN)
@@ -1759,7 +1778,13 @@ class MainWindow(QMainWindow):
         if speed is None:
             speed = constants.LOW_SPEED
         self.axis.set_speed(speed)
-        self.axis.move_to(pos, wait=wait)
+        moved = self.axis.move_to(pos, wait=wait)
+        if moved is False:
+            # The axis refused the move -- out of bounds, or the reference was
+            # dropped because its position became unknown. Carrying on would
+            # measure and step against a position the stage never reached.
+            logger.error(f"Autofocus move to {pos:.3f} was refused by the axis.")
+        return moved is not False
 
     def _autofocus_positions(self, start, end, step):
         step = abs(float(step))
@@ -1857,7 +1882,10 @@ class MainWindow(QMainWindow):
             if self.stop:
                 break
 
-            self._autofocus_move_to(pos, wait=True, speed=move_speed)
+            if not self._autofocus_move_to(pos, wait=True, speed=move_speed):
+                # The boundary refused this position, so every deeper one in
+                # this sweep is refused too. Keep what was sampled so far.
+                break
             if self.stop:
                 break
             if not self._autofocus_wait(settle_time):
@@ -2184,7 +2212,19 @@ class MainWindow(QMainWindow):
                 # the descent. Retract it rather than leaving the lens low over
                 # the specimen. A user abort is left alone on purpose.
                 try:
-                    self._autofocus_move_to(retract_z, wait=True, speed=constants.DEFAULT_SPEED)
+                    if not self._autofocus_move_to(retract_z, wait=True, speed=constants.DEFAULT_SPEED):
+                        # The axis refused to move, so its position is no longer
+                        # known. Homing is then the only safe way back up: it
+                        # runs against the endstop and does not depend on z.
+                        logger.error("Retract refused; homing the axis to lift "
+                                     "the lens off the specimen.")
+                        self.axis_reference_lost_signal.emit()
+                        if not self.axis.axis_reference():
+                            self.autofocus_error_signal.emit(
+                                "The stage could not be retracted after a failed "
+                                "autofocus. Move it up manually and reference the "
+                                "axis before running another capture."
+                            )
                 except Exception:
                     logger.exception("Could not retract the stage after a failed autofocus")
             try:
