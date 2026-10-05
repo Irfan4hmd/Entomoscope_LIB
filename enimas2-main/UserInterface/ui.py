@@ -1777,7 +1777,11 @@ class MainWindow(QMainWindow):
         logger.debug(f"autofocus move to {pos:.3f}")
         if speed is None:
             speed = constants.LOW_SPEED
-        self.axis.set_speed(speed)
+        # Every speed command costs a serial write plus fixed delays, so only
+        # send one when the speed actually changes during this autofocus run.
+        if speed != getattr(self, "_autofocus_speed", None):
+            self.axis.set_speed(speed)
+            self._autofocus_speed = speed
         moved = self.axis.move_to(pos, wait=wait)
         if moved is False:
             # The axis refused the move -- out of bounds, or the reference was
@@ -1872,11 +1876,20 @@ class MainWindow(QMainWindow):
         peak_drop_ratio=0.5,
         peak_decline_count=3,
         min_samples_before_stop=8,
+        min_peak_ratio=0.0,
+        baseline=None,
     ):
+        """Sample sharpness at each position, optionally stopping past a peak.
+
+        With ``min_peak_ratio`` an early stop also needs the peak to stand that
+        many times above the lowest score seen (seeded with ``baseline``), so a
+        small bump in the defocused background cannot end the search early.
+        """
         samples = []
         best_score = -1.0
         best_z = None
         post_peak_scores = []
+        floor_score = float(baseline) if baseline is not None else None
 
         for pos in positions:
             if self.stop:
@@ -1903,6 +1916,8 @@ class MainWindow(QMainWindow):
             sample = {"z": float(self.axis.z), "score": float(sharpness)}
             samples.append(sample)
             logger.debug(f"{label}: sharpness={sample['score']:.4f}, z={sample['z']:.3f}, samples={n_samples}")
+            if floor_score is None or sample["score"] < floor_score:
+                floor_score = sample["score"]
 
             if sample["score"] > best_score:
                 best_score = sample["score"]
@@ -1917,7 +1932,8 @@ class MainWindow(QMainWindow):
                     recent = post_peak_scores[-peak_decline_count:]
                     monotonic_decline = all(recent[i] >= recent[i + 1] for i in range(len(recent) - 1))
                     strong_drop = recent[-1] < best_score * peak_drop_ratio
-                    if monotonic_decline and strong_drop:
+                    significant = best_score >= floor_score * min_peak_ratio
+                    if monotonic_decline and strong_drop and significant:
                         logger.debug(
                             f"{label}: early stop after peak at z={best_z:.3f}, "
                             f"best_sharpness={best_score:.4f}"
@@ -1941,6 +1957,7 @@ class MainWindow(QMainWindow):
         peak_drop_ratio=0.5,
         peak_decline_count=3,
         min_samples_before_stop=8,
+        min_peak_ratio=0.0,
     ):
         max_valid_z = self._autofocus_max_z()
         start = self._autofocus_clamp_z(center_z - half_range, max_valid_z)
@@ -1963,12 +1980,100 @@ class MainWindow(QMainWindow):
             peak_drop_ratio=peak_drop_ratio,
             peak_decline_count=peak_decline_count,
             min_samples_before_stop=min_samples_before_stop,
+            min_peak_ratio=min_peak_ratio,
         )
 
     def _autofocus_get_best_sample(self, samples):
         if not samples:
             return None
         return max(samples, key=lambda sample: sample["score"])
+
+    _AUTOFOCUS_SAVED_FOCUS_ATTRS = {
+        "Entomoscope PI": "base_focus_height_arducam_old",
+        "Entomoscope PIs": "base_focus_height_arducam",
+        "Entomoscope PI2AI": "base_focus_height_vaimaging",
+    }
+
+    def _autofocus_saved_z(self, max_valid_z):
+        """Stage z of the last focus found with this lens on this device, if any.
+
+        Reads the device-specific value that autofocus itself stores, so a
+        focus found earlier in this session is used too. Returns None when
+        nothing usable is saved, so the caller falls back to the full search.
+        """
+        lens = getattr(self, "current_lens", None)
+        attr = self._AUTOFOCUS_SAVED_FOCUS_ATTRS.get(getattr(self, "current_device_name", None))
+        if lens is None or attr is None:
+            return None
+        try:
+            z = float(self.axis_length) - (float(lens.lenght) + float(getattr(lens, attr)))
+        except (AttributeError, TypeError, ValueError):
+            return None
+        if not 0.0 <= z <= max_valid_z:
+            return None
+        return z
+
+    def _autofocus_bracketed_peak(self, samples, edge_ratio=0.8, min_peak_ratio=0.0):
+        """Best sample, but only if the scan clearly rose to it and fell after.
+
+        A peak at either end of the window, or edges nearly as sharp as the
+        peak, means the true focus may lie outside the window. A peak less than
+        ``min_peak_ratio`` times the lowest score is background noise.
+        """
+        if len(samples) < 3:
+            return None
+        best_index = max(range(len(samples)), key=lambda i: samples[i]["score"])
+        if best_index in (0, len(samples) - 1):
+            return None
+        best = samples[best_index]
+        limit = best["score"] * edge_ratio
+        if best["score"] <= 0 or samples[0]["score"] > limit or samples[-1]["score"] > limit:
+            return None
+        if best["score"] < min(sample["score"] for sample in samples) * min_peak_ratio:
+            return None
+        return best
+
+    def _autofocus_rising_at_end(self, samples, min_rise=1.5):
+        """True when sharpness is still climbing clearly at the deep end.
+
+        The focus then lies further down, so the search can continue from
+        there instead of starting over from the top.
+        """
+        if len(samples) < 3:
+            return False
+        a, b, c = (sample["score"] for sample in samples[-3:])
+        floor = min(sample["score"] for sample in samples)
+        return a < b < c and floor > 0 and c >= floor * min_rise
+
+    def _autofocus_refine_peak_z(self, samples, best):
+        """Interpolate the focus peak between the best sample and its neighbours.
+
+        Fits a parabola through the log scores (a Gaussian through the scores)
+        of the three samples around the best one, so the result is not limited
+        to the scan grid. Falls back to the best sample's own z.
+        """
+        ordered = sorted(samples, key=lambda sample: sample["z"])
+        try:
+            i = ordered.index(best)
+        except ValueError:
+            return best["z"]
+        if i == 0 or i == len(ordered) - 1:
+            return best["z"]
+
+        z0, z1, z2 = (ordered[j]["z"] for j in (i - 1, i, i + 1))
+        scores = [ordered[j]["score"] for j in (i - 1, i, i + 1)]
+        if min(scores) <= 0:
+            return best["z"]
+        y0, y1, y2 = (float(np.log(score)) for score in scores)
+
+        denom = (z0 - z1) * (z0 - z2) * (z1 - z2)
+        if abs(denom) < 1e-12:
+            return best["z"]
+        a = (z2 * (y1 - y0) + z1 * (y0 - y2) + z0 * (y2 - y1)) / denom
+        b = (z2 * z2 * (y0 - y1) + z1 * z1 * (y2 - y0) + z0 * z0 * (y1 - y2)) / denom
+        if a >= 0:
+            return best["z"]
+        return min(max(-b / (2 * a), z0), z2)
 
     def _autofocus_move_to_with_backlash(self, target_z, backlash=0.4, settle_time=0.2):
         target_z = self._autofocus_clamp_z(target_z)
@@ -2024,7 +2129,17 @@ class MainWindow(QMainWindow):
         final_discard_frames = 1
         verify_trigger_ratio = 0.85
         rescue_trigger_ratio = 0.82
+        # Half-width of the coarse windows searched around the current stage
+        # position and the last saved focus before falling back to the full
+        # search from the top.
+        guess_half_range = 3 * coarse_step
+        # A coarse peak must be this many times above the defocused background
+        # before the search may stop at it. Real focus peaks measured on the
+        # device stand 50x above it, background bumps only about 2x.
+        min_peak_ratio = 4.0
 
+        started_at = time()
+        self._autofocus_speed = None
         descent_started = False
         focus_locked = False
         retract_z = 0.0
@@ -2032,45 +2147,131 @@ class MainWindow(QMainWindow):
             self._autofocus_prepare_capture()
 
             max_valid_z = self._autofocus_max_z()
-
-            # Search downwards from the retracted position instead of dropping
-            # to the lowest point first. The stage then never travels deeper
-            # than the focus plane, so a lens can no longer be driven onto the
-            # specimen while hunting for focus.
             retract_z = self._autofocus_clamp_z(0.0, max_valid_z)
-            logger.debug(
-                f"autofocus retract to z={retract_z:.3f}, then descend to at most z={max_valid_z:.3f}"
-            )
-            self._autofocus_move_to(retract_z, wait=True, speed=constants.DEFAULT_SPEED)
-            if self.stop:
-                return
-            # Past this point the stage can be left part-way down the search.
-            descent_started = True
 
-            coarse_positions = self._autofocus_positions(retract_z, max_valid_z, coarse_step)
-            coarse_samples, ok = self._autofocus_scan_positions(
-                coarse_positions,
-                settle_time=coarse_settle_time,
-                n_samples=coarse_n_samples,
-                discard_frames=coarse_discard_frames,
-                label="autofocus-coarse",
-                move_speed=constants.DEFAULT_SPEED,
-                stop_after_peak=True,
-                peak_drop_ratio=0.7,
-                peak_decline_count=3,
-                min_samples_before_stop=5,
-            )
-            if not ok:
-                self._autofocus_handle_camera_failure()
-                return
+            # Before searching the whole travel from the top, try short windows
+            # around the likeliest places for focus: where the stage already is
+            # (the user may have focused roughly by hand), then the last focus
+            # found with this lens. Each window starts above its centre and
+            # descends with the same step and speed as the full coarse scan,
+            # so fine_center_bias applies to its result unchanged. A window
+            # next to the top is skipped, because the full search starts there.
+            guesses = []
+            current_z = self._autofocus_clamp_z(self.axis.z, max_valid_z)
+            if current_z > retract_z + guess_half_range:
+                guesses.append(("current", current_z))
+            saved_z = self._autofocus_saved_z(max_valid_z)
+            if saved_z is not None and all(abs(saved_z - z) > guess_half_range for _, z in guesses):
+                guesses.append(("saved", saved_z))
 
-            if self.stop:
-                return
+            best_coarse = None
+            for name, guess_z in guesses:
+                logger.debug(f"autofocus trying {name} window around z={guess_z:.3f}")
+                descent_started = True
+                guess_samples, ok = self._autofocus_scan_window(
+                    guess_z,
+                    guess_half_range,
+                    coarse_step,
+                    settle_time=coarse_settle_time,
+                    n_samples=coarse_n_samples,
+                    discard_frames=coarse_discard_frames,
+                    label=f"autofocus-{name}",
+                    move_speed=constants.DEFAULT_SPEED,
+                    stop_after_peak=True,
+                    peak_drop_ratio=0.7,
+                    peak_decline_count=2,
+                    min_samples_before_stop=4,
+                    min_peak_ratio=min_peak_ratio,
+                )
+                if not ok:
+                    self._autofocus_handle_camera_failure()
+                    return
+                if self.stop:
+                    return
+                best_coarse = self._autofocus_bracketed_peak(
+                    guess_samples, min_peak_ratio=min_peak_ratio
+                )
+                if best_coarse is not None:
+                    break
 
-            best_coarse = self._autofocus_get_best_sample(coarse_samples)
+                last_z = guess_samples[-1]["z"] if guess_samples else max_valid_z
+                if self._autofocus_rising_at_end(guess_samples) and last_z < max_valid_z - 1e-3:
+                    # Still getting sharper at the deep end, so focus is further
+                    # down. Keep descending from here, exactly as the full scan
+                    # would, instead of starting over from the top.
+                    logger.debug(f"autofocus {name} window still rising; continuing down from z={last_z:.3f}")
+                    extend_positions = self._autofocus_positions(
+                        last_z + coarse_step, max_valid_z, coarse_step
+                    )
+                    extend_samples, ok = self._autofocus_scan_positions(
+                        extend_positions,
+                        settle_time=coarse_settle_time,
+                        n_samples=coarse_n_samples,
+                        discard_frames=coarse_discard_frames,
+                        label=f"autofocus-{name}-extend",
+                        move_speed=constants.DEFAULT_SPEED,
+                        stop_after_peak=True,
+                        peak_drop_ratio=0.7,
+                        peak_decline_count=2,
+                        min_samples_before_stop=2,
+                        min_peak_ratio=min_peak_ratio,
+                        baseline=min(sample["score"] for sample in guess_samples),
+                    )
+                    if not ok:
+                        self._autofocus_handle_camera_failure()
+                        return
+                    if self.stop:
+                        return
+                    combined = guess_samples + extend_samples
+                    candidate = self._autofocus_get_best_sample(combined)
+                    floor = min(sample["score"] for sample in combined)
+                    if candidate is not None and candidate["score"] >= floor * min_peak_ratio:
+                        best_coarse = candidate
+                        break
+                logger.debug(f"autofocus found no clear peak in the {name} window")
+
+            if best_coarse is None and guesses:
+                logger.debug("autofocus running the full search")
+
             if best_coarse is None:
-                logger.warning("Autofocus found no valid focus samples")
-                return
+                # Search downwards from the retracted position instead of
+                # dropping to the lowest point first. The stage then never
+                # travels deeper than the focus plane, so a lens can no longer
+                # be driven onto the specimen while hunting for focus.
+                logger.debug(
+                    f"autofocus retract to z={retract_z:.3f}, then descend to at most z={max_valid_z:.3f}"
+                )
+                self._autofocus_move_to(retract_z, wait=True, speed=constants.DEFAULT_SPEED)
+                if self.stop:
+                    return
+                # Past this point the stage can be left part-way down the search.
+                descent_started = True
+
+                coarse_positions = self._autofocus_positions(retract_z, max_valid_z, coarse_step)
+                coarse_samples, ok = self._autofocus_scan_positions(
+                    coarse_positions,
+                    settle_time=coarse_settle_time,
+                    n_samples=coarse_n_samples,
+                    discard_frames=coarse_discard_frames,
+                    label="autofocus-coarse",
+                    move_speed=constants.DEFAULT_SPEED,
+                    stop_after_peak=True,
+                    peak_drop_ratio=0.7,
+                    peak_decline_count=3,
+                    min_samples_before_stop=5,
+                    min_peak_ratio=min_peak_ratio,
+                )
+                if not ok:
+                    self._autofocus_handle_camera_failure()
+                    return
+
+                if self.stop:
+                    return
+
+                best_coarse = self._autofocus_get_best_sample(coarse_samples)
+                if best_coarse is None:
+                    logger.warning("Autofocus found no valid focus samples")
+                    return
 
             logger.debug(
                 f"autofocus coarse best: z={best_coarse['z']:.3f}, sharpness={best_coarse['score']:.4f}"
@@ -2102,7 +2303,14 @@ class MainWindow(QMainWindow):
                 f"autofocus fine best: z={best_fine['z']:.3f}, sharpness={best_fine['score']:.4f}"
             )
 
-            best_final = best_fine
+            # Target the interpolated peak rather than the nearest grid point.
+            # The expected score stays the measured one, so the verify and
+            # rescue passes below still catch a poor fit.
+            refined_z = self._autofocus_clamp_z(
+                self._autofocus_refine_peak_z(fine_samples, best_fine), max_valid_z
+            )
+            logger.debug(f"autofocus refined peak: z={refined_z:.3f}")
+            best_final = {"z": refined_z, "score": best_fine["score"]}
             self._autofocus_move_to_with_backlash(best_final["z"], backlash=backlash, settle_time=backlash_settle_time)
             focus_locked = True
             if self.stop:
@@ -2235,6 +2443,7 @@ class MainWindow(QMainWindow):
                     f"Autofocus stopped while restoring the camera: {e}"
                 )
             finally:
+                logger.debug(f"autofocus finished in {time() - started_at:.2f}s")
                 self.stop = False
                 self.autofocus_finished_signal.emit()
 

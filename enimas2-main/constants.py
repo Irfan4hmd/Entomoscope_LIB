@@ -5,9 +5,9 @@ from pathlib import Path
 APP_VERSION = "1.4.11"
 
 # ungefähre Motorgeschwindigkeit in Umdrehungen/s
-DEFAULT_SPEED = 3
+DEFAULT_SPEED = 4
 LOW_SPEED = 2
-MAX_SPEED = 4
+MAX_SPEED = 6
 
 """
 N: New version PI2AI
