@@ -35,7 +35,7 @@ from process_cleanup import safe_shutdown_pool
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QLineEdit, QPushButton, QLabel, QStatusBar, QAction,QGraphicsDropShadowEffect,
                             QDialog, QTreeView, QFileSystemModel, QFileDialog, QMessageBox, QTabWidget, QActionGroup,
                             QSlider, QListWidgetItem, QListWidget, QSpinBox, QDoubleSpinBox, QMenu, QCheckBox,
-                            QVBoxLayout, QHBoxLayout, QDialogButtonBox, QWidget, QSizePolicy, QComboBox, QWidgetAction, QScrollArea, QStyle, QLayout, QInputDialog)
+                            QVBoxLayout, QHBoxLayout, QGridLayout, QFrame, QDialogButtonBox, QWidget, QSizePolicy, QComboBox, QWidgetAction, QScrollArea, QStyle, QLayout, QInputDialog)
 from PyQt5.QtGui import QIcon, QImage, QPixmap, QFont, QColor, QMovie
 from PyQt5.QtCore import Qt, QThread, QObject, pyqtSignal, pyqtBoundSignal, pyqtSlot, QEvent, QPointF, QSize, QTimer, QMetaObject, Q_ARG, QSignalBlocker
 from PyQt5 import uic
@@ -69,7 +69,7 @@ from Tools.image_output import (
 )
 from Tools.ml_models import Predictor, load_models, YOLO_MODELS
 from Tools.zenodo_uploader import Uploader
-from MotorController.motorcontroller import Axis
+from MotorController.motorcontroller import Axis, RotaryAxis, RotationError, RotationStopped
 from . import method_selection
 from UserInterface.InteractiveStaticLabel import InteractiveStaticLabel 
 from UserInterface.checkable_combo_box import CheckableComboBox
@@ -342,6 +342,7 @@ class Lens:
     base_focus_height_arducam_old: float = None
     base_focus_height_arducam: float = None
     base_focus_height_vaimaging: float = None
+    base_focus_height_macro: float = None
     magnification_factor: float = None
     scale: float = None
     scale_vaimaging: float = None
@@ -355,6 +356,8 @@ DEVICE_CAMERAS = {
     "Entomoscope PI": ArducamCamera,
     "Entomoscope PIs": ArducamCamera,
     "Entomoscope PI2AI": VAImagingCamera,
+    # Assumed to use the PI2AI camera; change if the MacroStation has an Arducam.
+    "Entomoscope MacroStation": VAImagingCamera,
     }
 
 def process_variant_task(img_path: str,
@@ -660,6 +663,9 @@ class MainWindow(QMainWindow):
     manual_move_error_signal = pyqtSignal(str)
     manual_move_finished_signal = pyqtSignal()
     axis_reference_lost_signal = pyqtSignal()
+    macro_status_signal = pyqtSignal(str)
+    macro_capture_finished_signal = pyqtSignal(object, str)
+    turntable_job_finished_signal = pyqtSignal(str)
     _last_image_path=''
     
     def __init__(self, axis: Axis, camera, cam_type):
@@ -700,6 +706,9 @@ class MainWindow(QMainWindow):
         self.manual_move_error_signal.connect(self._show_manual_move_error)
         self.axis_reference_lost_signal.connect(self.invalidate_axis_reference)
         self.manual_move_finished_signal.connect(self._finish_manual_move_ui)
+        self.macro_status_signal.connect(self._show_macro_status)
+        self.macro_capture_finished_signal.connect(self._finish_macro_capture)
+        self.turntable_job_finished_signal.connect(self._finish_turntable_job)
 
         self.detected_box = None   
         self.original_box = None 
@@ -741,7 +750,7 @@ class MainWindow(QMainWindow):
 
         self.device_group = QActionGroup(self)
         self.device_group.setExclusive(False)
-        devices = ["Entomoscope PI", "Entomoscope PIs", "Entomoscope PI2AI"]
+        devices = ["Entomoscope PI", "Entomoscope PIs", "Entomoscope PI2AI", "Entomoscope MacroStation"]
         self.current_device_name = None
 
         self.device_selected = False
@@ -1122,6 +1131,12 @@ class MainWindow(QMainWindow):
         self.add_model_button.setContextMenuPolicy(Qt.CustomContextMenu)
         self.add_model_button.clicked.connect(self.addModel)
         
+        # MacroStation turntable section. It is built here rather than in
+        # main.ui so the other devices' layout stays untouched, and it is only
+        # shown for the MacroStation profile.
+        self.rotary_axis = RotaryAxis(getattr(axis, "arduino", None), axis)
+        self._build_turntable_panel()
+
         # Update ui according to the connection of entomoscope 
         self.update_ui_state()
 
@@ -1337,6 +1352,14 @@ class MainWindow(QMainWindow):
                 self.axis.set_travel_limit(self.axis_length)
                 self.set_new_limit()
                 self.current_lens.base_focus_height = self.current_lens.base_focus_height_vaimaging
+            elif self.current_device_name == "Entomoscope MacroStation":
+                self.axis.set_rotation_height(constants.ROTATION_HEIGHT_M)
+                self.axis_length = constants.TRAVEL_LENGHT_M
+                self.sensor_distance = constants.SENSOR_TO_BASE_PLATE_M
+                self.axis.set_travel_limit(self.axis_length)
+                self.set_new_limit()
+                self.current_lens.base_focus_height = self.current_lens.base_focus_height_macro
+            self.turntable_panel.setVisible(self.current_device_name == "Entomoscope MacroStation")
             self.device_selected = True
             self.referenced = False
             self.update_ui_state()
@@ -1573,6 +1596,8 @@ class MainWindow(QMainWindow):
         self.motor_down_button.setEnabled(False)
         self.autofocus_button.setEnabled(False)
         self.take_stack_picture_bttn.setEnabled(False)
+        if getattr(self, "turntable_panel", None) is not None:
+            self._update_turntable_controls(False)
         self.motor_reference_button.setEnabled(True)
 
     def upload_to_zenodo(self):
@@ -1634,6 +1659,8 @@ class MainWindow(QMainWindow):
         self.autofocus_button.setEnabled(state)
         self.motor_reference_button.setEnabled(state)
         self.take_stack_picture_bttn.setEnabled(state)
+        if getattr(self, "turntable_panel", None) is not None:
+            self._update_turntable_controls(state)
 
     def _update_single_capture_button(self):
         enabled = bool(
@@ -1992,6 +2019,7 @@ class MainWindow(QMainWindow):
         "Entomoscope PI": "base_focus_height_arducam_old",
         "Entomoscope PIs": "base_focus_height_arducam",
         "Entomoscope PI2AI": "base_focus_height_vaimaging",
+        "Entomoscope MacroStation": "base_focus_height_macro",
     }
 
     def _autofocus_saved_z(self, max_valid_z):
@@ -2097,8 +2125,10 @@ class MainWindow(QMainWindow):
         # The start handler clears this flag before launching the thread. A
         # close request can set it again before the worker gets CPU time, so
         # never clear it here or shutdown cancellation could be lost.
+        self._autofocus_last_locked = False
         if self.stop:
-            self.autofocus_finished_signal.emit()
+            if not getattr(self, "_autofocus_embedded", False):
+                self.autofocus_finished_signal.emit()
             return
         coarse_step = 3.0
         fine_step = 0.4
@@ -2409,6 +2439,8 @@ class MainWindow(QMainWindow):
                     self.current_lens.base_focus_height_arducam = self.axis_length - (self.axis.z + self.current_lens.lenght)
                 elif self.current_device_name == "Entomoscope PI2AI":
                     self.current_lens.base_focus_height_vaimaging = self.axis_length - (self.axis.z + self.current_lens.lenght)
+                elif self.current_device_name == "Entomoscope MacroStation":
+                    self.current_lens.base_focus_height_macro = self.axis_length - (self.axis.z + self.current_lens.lenght)
                 self.dump_lenses_to_file()
 
         except Exception as e:
@@ -2444,8 +2476,13 @@ class MainWindow(QMainWindow):
                 )
             finally:
                 logger.debug(f"autofocus finished in {time() - started_at:.2f}s")
-                self.stop = False
-                self.autofocus_finished_signal.emit()
+                self._autofocus_last_locked = focus_locked
+                # As one step of a MacroStation run, the caller owns the
+                # controls and the stop flag: re-enabling the UI or clearing a
+                # user abort here would let the rest of the sequence run on.
+                if not getattr(self, "_autofocus_embedded", False):
+                    self.stop = False
+                    self.autofocus_finished_signal.emit()
 
     def do_autofocus(self):
         return self.do_autofocus_robust()
@@ -3533,6 +3570,8 @@ class MainWindow(QMainWindow):
             self.current_lens.base_focus_height = self.current_lens.base_focus_height_arducam
         elif self.current_device_name == "Entomoscope PI2AI":
             self.current_lens.base_focus_height = self.current_lens.base_focus_height_vaimaging
+        elif self.current_device_name == "Entomoscope MacroStation":
+            self.current_lens.base_focus_height = self.current_lens.base_focus_height_macro
             
         self.current_scale = lens_scale_for_camera(self.current_lens, self.camera_type)
         self.current_lens.scale = self.current_scale
@@ -3766,6 +3805,448 @@ class MainWindow(QMainWindow):
         self._manual_move_control_states = []
         self._update_single_capture_button()
         self.statusBar.showMessage("Manual focus adjustment complete.", 5000)
+
+    # ------------------------------------------------------------------
+    # MacroStation turntable
+    # ------------------------------------------------------------------
+    _TURNTABLE_STYLE = """
+        QFrame#turntable_panel {
+            background-color: #F5F5F5;
+            border: 1px solid #CCCCCC;
+            border-radius: 8px;
+        }
+        QLabel#turntable_title {
+            color: #000000;
+        }
+        QLabel#turntable_angle {
+            color: rgb(0, 110, 90);
+            font-weight: bold;
+        }
+        QPushButton {
+            background-color: white;
+            border: 1px solid rgb(201, 201, 201);
+            border-radius: 8px;
+            padding: 4px 8px;
+            min-height: 22px;
+        }
+        QPushButton:hover {
+            border-color: rgb(128, 128, 128);
+            background-color: rgb(128, 128, 128);
+            color: white;
+        }
+        QPushButton:disabled {
+            color: rgb(160, 160, 160);
+            background-color: rgb(240, 240, 240);
+        }
+        QPushButton#turntable_rotate {
+            font-size: 15pt;
+            padding: 0px 8px;
+        }
+        QPushButton#macro_capture_button {
+            background-color: rgb(0, 145, 117);
+            border-color: rgb(0, 145, 117);
+            color: white;
+            font-weight: bold;
+        }
+        QPushButton#macro_capture_button:hover {
+            background-color: rgb(0, 115, 93);
+        }
+        QPushButton#macro_capture_button:disabled {
+            background-color: rgb(170, 205, 197);
+            border-color: rgb(170, 205, 197);
+        }
+        QSpinBox {
+            background-color: white;
+            border: 1px solid rgb(201, 201, 201);
+            border-radius: 6px;
+            padding: 2px 4px;
+            min-height: 22px;
+        }
+    """
+
+    def _build_turntable_panel(self):
+        """The MacroStation section: manual rotation, presets and the 4-view run."""
+        panel = QFrame(self)
+        panel.setObjectName("turntable_panel")
+        panel.setStyleSheet(self._TURNTABLE_STYLE)
+        # Sized like the two cards it sits between.
+        panel.setFixedWidth(330)
+        panel.setMaximumHeight(160)
+        grid = QGridLayout(panel)
+        grid.setContentsMargins(10, 8, 10, 10)
+        grid.setHorizontalSpacing(6)
+        grid.setVerticalSpacing(6)
+
+        title = QLabel("Turntable", panel)
+        title.setObjectName("turntable_title")
+        results_title = getattr(self, "resultsSectionTitle", None)
+        if results_title is not None:
+            title.setFont(results_title.font())
+        self.turntable_angle_label = QLabel(panel)
+        self.turntable_angle_label.setObjectName("turntable_angle")
+        self.turntable_angle_label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        grid.addWidget(title, 0, 0, 1, 2)
+        grid.addWidget(self.turntable_angle_label, 0, 2, 1, 2)
+
+        # row 1: manual rotation by the chosen step
+        self.turntable_cw_button = QPushButton("↻", panel)
+        self.turntable_cw_button.setObjectName("turntable_rotate")
+        self.turntable_cw_button.setToolTip("Turn clockwise by the step angle")
+        self.turntable_ccw_button = QPushButton("↺", panel)
+        self.turntable_ccw_button.setObjectName("turntable_rotate")
+        self.turntable_ccw_button.setToolTip("Turn counter-clockwise by the step angle")
+        self.turntable_step_spinbox = QSpinBox(panel)
+        self.turntable_step_spinbox.setRange(1, int(constants.MACRO_END_SWITCH_ANGLE))
+        self.turntable_step_spinbox.setValue(15)
+        self.turntable_step_spinbox.setSuffix("° step")
+        self.turntable_step_spinbox.setAlignment(Qt.AlignCenter)
+        self.turntable_step_spinbox.setToolTip("Angle turned by one press of the arrows")
+        self.turntable_calibrate_button = QPushButton("Home", panel)
+        self.turntable_calibrate_button.setToolTip(
+            "Find both limit switches to measure the turntable, then return to 0°"
+        )
+        grid.addWidget(self.turntable_cw_button, 1, 0)
+        grid.addWidget(self.turntable_step_spinbox, 1, 1, 1, 2)
+        grid.addWidget(self.turntable_ccw_button, 1, 3)
+
+        # row 2: go straight to one of the view angles
+        self.turntable_preset_buttons = []
+        for column, angle in enumerate((0, 90, 180, int(constants.MACRO_END_SWITCH_ANGLE))):
+            button = QPushButton(f"{angle}°", panel)
+            button.setToolTip(f"Turn to {angle}°")
+            button.clicked.connect(lambda _checked, a=angle: self.turntable_go_to(a))
+            grid.addWidget(button, 2, column)
+            self.turntable_preset_buttons.append(button)
+
+        # row 3: calibrate, and the automatic run
+        self.macro_capture_button = QPushButton("Capture 4 Views", panel)
+        self.macro_capture_button.setObjectName("macro_capture_button")
+        self.macro_capture_button.setToolTip(
+            "Home the turntable, autofocus, and take pictures at "
+            "0°, 270°, 180° and 90°"
+        )
+        grid.addWidget(self.turntable_calibrate_button, 3, 0)
+        grid.addWidget(self.macro_capture_button, 3, 1, 1, 3)
+        for column in range(4):
+            grid.setColumnStretch(column, 1)
+
+        self.turntable_cw_button.clicked.connect(lambda: self.turntable_jog(-1))
+        self.turntable_ccw_button.clicked.connect(lambda: self.turntable_jog(1))
+        self.turntable_calibrate_button.clicked.connect(self.turntable_calibrate)
+        self.macro_capture_button.clicked.connect(self.macro_capture_clicked)
+
+        self.turntable_panel = panel
+        self._turntable_job_active = False
+        self._place_turntable_panel(panel)
+        panel.setVisible(False)
+        self._update_turntable_controls()
+
+    def _place_turntable_panel(self, panel):
+        """Put the panel in the bottom row, between AI Classification and the
+        results. The left column is already full height, so a section there
+        squeezes the motor buttons into each other."""
+        bottom_row = getattr(self, "bottomSectionLayout", None)
+        if bottom_row is None:
+            logger.warning("Could not place the turntable panel; adding it to the status bar instead.")
+            self.statusBar.addWidget(panel)
+            return
+        bottom_row.insertWidget(1, panel, 0)
+
+    def _update_turntable_controls(self, enabled=None):
+        """Enable the turntable buttons that make sense in the current state.
+
+        `enabled` follows the motor controls; leave it out to keep the last one.
+        """
+        if getattr(self, "turntable_panel", None) is None:
+            return
+        if enabled is not None:
+            self._turntable_allowed = bool(enabled)
+        enabled = getattr(self, "_turntable_allowed", False) and not getattr(self, "_turntable_job_active", False)
+        calibrated = self.rotary_axis.calibrated
+
+        self.turntable_calibrate_button.setEnabled(enabled)
+        self.macro_capture_button.setEnabled(enabled)
+        for widget in (self.turntable_cw_button, self.turntable_ccw_button,
+                       self.turntable_step_spinbox, *self.turntable_preset_buttons):
+            widget.setEnabled(enabled and calibrated)
+
+        if calibrated:
+            self.turntable_angle_label.setText(f"{self.rotary_axis.angle:.1f}°")
+            self.turntable_angle_label.setToolTip("")
+        else:
+            self.turntable_angle_label.setText("not homed")
+            self.turntable_angle_label.setToolTip("Press Home to measure the turntable")
+
+    def turntable_calibrate(self):
+        self._start_turntable_job("Homing the turntable ...", self.rotary_axis.calibrate)
+
+    def turntable_jog(self, direction):
+        """direction: 1 counter-clockwise, -1 clockwise."""
+        degrees = direction * self.turntable_step_spinbox.value()
+        self._start_turntable_job(
+            f"Turning {abs(degrees)}° {'counter-clockwise' if degrees > 0 else 'clockwise'} ...",
+            lambda: self.rotary_axis.jog(degrees),
+        )
+
+    def turntable_go_to(self, angle):
+        if angle >= constants.MACRO_END_SWITCH_ANGLE:
+            # onto the end switch, which also refreshes the calibration
+            job = self.rotary_axis.seek_end
+        else:
+            job = lambda: self.rotary_axis.move_to_angle(angle)
+        self._start_turntable_job(f"Turning to {angle}° ...", job)
+
+    def _start_turntable_job(self, message, job):
+        if (
+            getattr(self, "_stack_operation_active", False)
+            or getattr(self, "_autofocus_active", False)
+            or getattr(self, "_lens_reposition_active", False)
+            or getattr(self, "_single_capture_active", False)
+            or getattr(self, "_manual_move_active", False)
+        ):
+            self.statusBar.showMessage(
+                "Wait for the current image or motor operation to finish.",
+                10000,
+            )
+            return
+
+        # Like the 4-view run, a turntable move holds autofocus's busy flag and
+        # thread slot, so the existing guards and the close handling cover it.
+        self.stop = False
+        self._autofocus_active = True
+        self._turntable_job_active = True
+        self.take_single_picture_bttn.setEnabled(False)
+        self.set_motor_control_state(False)
+        self.statusBar.showMessage(f"Turntable: {message}")
+
+        def worker():
+            error = ""
+            try:
+                job()
+            except RotationStopped:
+                error = ""
+            except Exception as exc:
+                logger.exception("Turntable move failed")
+                error = str(exc)
+            finally:
+                self.turntable_job_finished_signal.emit(error)
+
+        thread = Thread(target=worker)
+        self._autofocus_thread = thread
+        try:
+            thread.start()
+        except Exception as exc:
+            logger.exception("Could not start the turntable worker")
+            self.turntable_job_finished_signal.emit(str(exc))
+
+    @pyqtSlot(str)
+    def _finish_turntable_job(self, error):
+        self._turntable_job_active = False
+        self._finish_autofocus_ui()
+        self.stop = False
+        if getattr(self, "_close_pending", False):
+            return
+        if error:
+            self.statusBar.showMessage("Turntable stopped.", 10000)
+            QMessageBox.warning(self, "Turntable", error)
+        elif self.rotary_axis.calibrated:
+            self.statusBar.showMessage(f"Turntable at {self.rotary_axis.angle:.1f}°", 5000)
+
+    def _macro_view_paths(self, folder, specimen):
+        """One file per view, numbered per run so a later run never overwrites."""
+        runs = [
+            int(match.group(1))
+            for entry in os.listdir(folder)
+            if (match := search(rf"(?i)^{escape(specimen)}_view(\d+)_\d{{3}}deg\.", entry))
+        ]
+        run = max(runs, default=0) + 1
+        angles = [0.0, constants.MACRO_END_SWITCH_ANGLE, *constants.MACRO_RETURN_ANGLES]
+        return [
+            (angle, os.path.join(
+                folder,
+                f"{specimen}_view{run:0>2}_{int(round(angle)):0>3}deg.{constants.IMG_EXTENSION}",
+            ))
+            for angle in angles
+        ]
+
+    def macro_capture_clicked(self):
+        if (
+            getattr(self, "_stack_operation_active", False)
+            or getattr(self, "_autofocus_active", False)
+            or getattr(self, "_lens_reposition_active", False)
+            or getattr(self, "_single_capture_active", False)
+            or getattr(self, "_manual_move_active", False)
+        ):
+            self.statusBar.showMessage(
+                "Wait for the current image or motor operation to finish.",
+                10000,
+            )
+            return
+        if self.camera is None:
+            QMessageBox.warning(self, "No camera connected",
+                                "The MacroStation views need a working camera.")
+            return
+        if getattr(self, "showing_static_image", False):
+            self.statusBar.showMessage("Return to the live view before capturing the views.", 10000)
+            return
+        if not self.referenced or not getattr(self.axis, "_referenced", False):
+            QMessageBox.warning(self, "Axis reference required",
+                                "Reference the axis before capturing the views.")
+            return
+
+        folder, specimen = self.directory_manager.get_current_folder_name(create_dir=True)
+        if folder is None:
+            if self.directory_manager.current_dir_mode == 0:
+                QMessageBox.critical(self, "Couldn't take the pictures.", "No folder names are specified to save a picture. \nPlease enter a Specimen prefix, Plate ID and Specimen code number.")
+            else:
+                QMessageBox.critical(self, "Couldn't take the pictures.", "No specimen name. \nPlease enter a folder path and a specimen name to save a picture.")
+            return
+        os.makedirs(folder, exist_ok=True)
+
+        if not self.lens_approved:
+            if not self.approve_lens(self.current_lens, "The turntable is going to turn, and the camera is going to move up and then search downwards for the focus point."):
+                return
+            self.lens_approved = True
+
+        views = self._macro_view_paths(folder, specimen)
+
+        # The run takes autofocus's busy flag and thread slot, so every guard
+        # that keeps other stage and camera work out during autofocus, and the
+        # close handling that waits for it, cover the whole run.
+        self.stop = False
+        self._autofocus_active = True
+        self.take_single_picture_bttn.setEnabled(False)
+        self.set_motor_control_state(False)
+        self.set_camera_lens_state(False)
+        MessageBox.information("MacroStation: capturing the views ...", abort=True, callback=self.abort_autofocus)
+        QApplication.processEvents()
+        macro_thread = Thread(target=self._macro_capture_worker, args=(views,))
+        self._autofocus_thread = macro_thread
+        try:
+            macro_thread.start()
+        except Exception as exc:
+            logger.exception("Could not start the MacroStation worker")
+            self._finish_autofocus_ui()
+            QMessageBox.warning(self, "MacroStation capture could not start",
+                                f"ENIMAS could not start the capture: {exc}")
+
+    def _macro_capture_worker(self, views):
+        """Home, focus, then 0 -> 270 (end switch) -> 180 -> 90 deg."""
+        rotary = self.rotary_axis
+        saved = []
+        error = ""
+        self._autofocus_embedded = True
+        try:
+            for index, (angle, path) in enumerate(views):
+                if self.stop:
+                    break
+                self.macro_status_signal.emit(f"Turning to {angle:g} deg ...")
+                if index == 0:
+                    # clockwise onto the home switch: this is 0 deg
+                    rotary.home()
+                elif index == 1:
+                    # counter-clockwise onto the end switch, which calibrates
+                    # steps per degree for the views that follow
+                    rotary.seek_end()
+                else:
+                    rotary.move_to_angle(angle)
+                if self.stop:
+                    break
+
+                if index == 0 or constants.MACRO_AUTOFOCUS_EACH_VIEW:
+                    self.macro_status_signal.emit(f"Autofocusing at {angle:g} deg ...")
+                    self.do_autofocus_robust()
+                    if self.stop:
+                        break
+                    if not self._autofocus_last_locked:
+                        error = f"Autofocus did not find focus at {angle:g} deg."
+                        break
+
+                sleep(constants.MACRO_ROTATION_SETTLE)
+                self.macro_status_signal.emit(f"Taking the {angle:g} deg picture ...")
+                img = self._macro_grab_frame()
+                if img is None:
+                    break
+                if not cv2.imwrite(path, img):
+                    raise RuntimeError(f"Saving the picture failed:\n{path}")
+                saved.append((angle, path))
+        except RotationStopped:
+            logger.debug("MacroStation capture stopped on the turntable")
+        except Exception as exc:
+            logger.exception("MacroStation capture failed")
+            error = str(exc)
+        finally:
+            self._autofocus_embedded = False
+            self.macro_capture_finished_signal.emit(saved, error)
+
+    def _macro_grab_frame(self):
+        """A fresh frame taken after the turntable has settled, or None on a stop."""
+        camera = self.arducam
+        begin_single_capture = getattr(camera, "begin_single_capture", None)
+        end_single_capture = getattr(camera, "end_single_capture", None)
+        get_frame_counter = getattr(camera, "get_frame_counter", None)
+        if callable(begin_single_capture):
+            begin_single_capture()
+        try:
+            img = camera.get_fresh_image(
+                discard_frames=0,
+                max_attempts=constants.SINGLE_CAPTURE_MAX_ATTEMPTS,
+                timeout_s=constants.SINGLE_CAPTURE_TIMEOUT,
+                after_counter=get_frame_counter() if callable(get_frame_counter) else None,
+                stop_check=lambda: bool(self.stop or getattr(self, "_close_pending", False)),
+            )
+        finally:
+            if callable(end_single_capture):
+                end_single_capture()
+        if img is None:
+            if self.stop or getattr(self, "_close_pending", False):
+                return None
+            detail = str(getattr(camera, "last_fresh_capture_error", "") or "").strip()
+            raise RuntimeError(
+                "The camera did not return a fresh image."
+                + (f"\n\nCamera detail: {detail}" if detail else "")
+            )
+        if self.camera_type == "VAImagingCamera":
+            img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+        return img
+
+    @pyqtSlot(str)
+    def _show_macro_status(self, message):
+        if getattr(self, "_close_pending", False):
+            return
+        self.statusBar.showMessage(f"MacroStation: {message}")
+        if MessageBox.message_box is not None:
+            MessageBox.message_box.setText(f"MacroStation: {message}")
+
+    @pyqtSlot(object, str)
+    def _finish_macro_capture(self, saved, error):
+        self._finish_autofocus_ui()
+        self.stop = False
+        if getattr(self, "_close_pending", False):
+            return
+
+        for angle, path in saved:
+            try:
+                self.save_metadata_file(path)
+                metadata = Path(path).resolve()
+                with (metadata.parent / f"{metadata.stem}_metadata.txt").open("a") as file:
+                    file.write(f"Turntable angle:\n{angle:g} deg\n\n")
+                if self.show_scalebar:
+                    self.draw_scale_bar(path)
+            except Exception:
+                logger.exception(f"Could not finish the MacroStation view {path}")
+
+        total = 2 + len(constants.MACRO_RETURN_ANGLES)
+        if saved:
+            self._last_image_path = saved[-1][1]
+            self.set_status_tip()
+            self.show_static_image(saved[-1][1])
+            self.measurement_button.setEnabled(True)
+        if error:
+            QMessageBox.warning(self, "MacroStation capture stopped",
+                                f"{error}\n\n{len(saved)} of {total} views were saved.")
+        else:
+            self.statusBar.showMessage(f"MacroStation: saved {len(saved)} of {total} views.", 10000)
 
     def show_orientation_menu(self):
         self.orientation_dialog = OrientationDialog(self)

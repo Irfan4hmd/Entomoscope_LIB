@@ -1,3 +1,4 @@
+import re
 import serial
 from time import sleep, time
 from serial import Serial
@@ -320,3 +321,181 @@ class Axis:
             logger.info("Closed Arduino connection.")
             # self.stop() 
             self.arduino.close()
+
+
+class RotationError(Exception):
+    """The turntable could not complete a command."""
+
+
+class RotationStopped(RotationError):
+    """The turntable command was interrupted by a stop."""
+
+
+class RotaryAxis:
+    """MacroStation turntable between two limit switches.
+
+    The home switch marks 0 deg and is reached turning clockwise; the end switch
+    marks ``constants.MACRO_END_SWITCH_ANGLE`` and is reached turning
+    counter-clockwise. The firmware counts steps from home, so the count up to
+    the end switch calibrates steps per degree on every run -- the disk radius,
+    the drive ratio and the microstepping never enter the calculation.
+
+    It shares the serial port with the Y axis, and the firmware runs turntable
+    commands blocking, so they are only sent while the Y axis is idle.
+    """
+
+    REPLY = re.compile(r"rot_([a-z]+)(?::(-?\d+))?\r?\n")
+    REPLY_TIMEOUT = constants.ROTATION_REPLY_TIMEOUT
+
+    def __init__(self, arduino: Serial, axis: Axis = None):
+        self.arduino = arduino
+        self.axis = axis
+        self.position = None          # steps from home, counter-clockwise positive
+        self.end_steps = None         # steps from home to the end switch
+
+    @property
+    def homed(self):
+        return self.position is not None
+
+    @property
+    def steps_per_degree(self):
+        if not self.end_steps:
+            return None
+        return self.end_steps / constants.MACRO_END_SWITCH_ANGLE
+
+    @property
+    def angle(self):
+        if self.position is None or not self.end_steps:
+            return None
+        return self.position / self.steps_per_degree
+
+    def _command(self, command: str):
+        if self.arduino is None:
+            raise RotationError("The motor controller is not connected.")
+        if self.axis is not None and self.axis.queue:
+            raise RotationError("The focus stage is still moving.")
+
+        # Drop anything left over from earlier Y moves, so it cannot be read as
+        # part of this reply.
+        self.arduino.reset_input_buffer()
+        self.arduino.write(bytes(command, "ascii"))
+
+        # Accumulate, as axis_reference does: a reply can be split over reads.
+        buffer = ""
+        deadline = time() + self.REPLY_TIMEOUT
+        while time() < deadline:
+            try:
+                buffer += self.arduino.readline().decode("ascii", "ignore")
+            except serial.SerialException as e:
+                self.position = None
+                raise RotationError(f"Serial error on the turntable: {e}") from e
+            match = self.REPLY.search(buffer)
+            if match:
+                value = int(match.group(2)) if match.group(2) is not None else None
+                return match.group(1), value
+
+        # The firmware may still be turning; the position is no longer known.
+        self.position = None
+        raise RotationError(f"No reply from the turntable within {self.REPLY_TIMEOUT}s.")
+
+    def _handle_unexpected(self, reply, value):
+        if reply == "stopped":
+            self.position = value
+            raise RotationStopped("The turntable was stopped.")
+        if reply == "busy":
+            raise RotationError("The motor controller is busy with the focus stage.")
+        if reply == "nohome":
+            self.position = None
+            raise RotationError("The turntable is not homed.")
+        if reply == "limit":
+            # A switch was reached before the target: the calibration no longer
+            # matches the disk, so start over from home.
+            self.position = None
+            raise RotationError(
+                f"The turntable reached a limit switch unexpectedly at step {value}. "
+                "Check that the disk turns freely and the switches are fixed."
+            )
+        self.position = None
+        raise RotationError(
+            "The turntable did not find its limit switch. Check the switch "
+            "wiring, and that the disk turns towards it (ROT_CW_LEVEL in servo.ino)."
+        )
+
+    def home(self):
+        """Turn clockwise onto the home switch; that position becomes 0 deg."""
+        self.position = None
+        reply, value = self._command("H")
+        if reply != "home":
+            self._handle_unexpected(reply, value)
+        self.position = 0
+        logger.debug("Turntable homed.")
+
+    def seek_end(self):
+        """Turn counter-clockwise onto the end switch and calibrate from it."""
+        reply, value = self._command("E")
+        if reply != "span":
+            self._handle_unexpected(reply, value)
+        if value is None or value <= 0:
+            self.position = None
+            raise RotationError(
+                "The end switch was reached without the turntable moving. Check "
+                "that the two switches are wired to the right inputs."
+            )
+        self.position = value
+        self.end_steps = value
+        logger.debug(
+            f"Turntable end switch at {value} steps -> "
+            f"{self.steps_per_degree:.3f} steps/deg"
+        )
+        return value
+
+    def _goto_steps(self, target: int):
+        reply, value = self._command(f"G{int(target)}")
+        if reply != "at":
+            self._handle_unexpected(reply, value)
+        self.position = value
+
+    def move_to_angle(self, angle: float, overshoot_deg: float = None):
+        """Move to an angle between the switches, finishing counter-clockwise.
+
+        Both switch positions were approached counter-clockwise, so ending
+        every move in that direction keeps the backlash of the drive out of the
+        result. A clockwise move therefore overshoots first and comes back.
+        """
+        if not self.homed or not self.end_steps:
+            raise RotationError("The turntable has to be homed and calibrated first.")
+        if not 0 <= angle <= constants.MACRO_END_SWITCH_ANGLE:
+            raise RotationError(f"{angle} deg is outside the range of the switches.")
+        if overshoot_deg is None:
+            overshoot_deg = constants.MACRO_ROTATION_OVERSHOOT_DEG
+
+        target = int(round(angle * self.steps_per_degree))
+        if target < self.position:
+            approach = max(0, target - int(round(overshoot_deg * self.steps_per_degree)))
+            self._goto_steps(approach)
+        self._goto_steps(target)
+        logger.debug(f"Turntable at {self.angle:.2f} deg ({self.position} steps)")
+
+    @property
+    def calibrated(self):
+        return self.homed and bool(self.end_steps)
+
+    def calibrate(self):
+        """Home, measure the span to the end switch, and come back to 0 deg."""
+        self.home()
+        self.seek_end()
+        self.move_to_angle(0.0)
+
+    def jog(self, degrees: float):
+        """Turn by a relative angle, counter-clockwise positive, kept inside the switches."""
+        if not self.calibrated:
+            raise RotationError("Calibrate the turntable first.")
+        # Stops just short of the end switch: driving onto it is seek_end's job,
+        # and a goto that touches it early is reported as an unexpected limit.
+        upper = constants.MACRO_END_SWITCH_ANGLE - 0.5
+        target = min(max(0.0, self.angle + degrees), upper)
+        self.move_to_angle(target)
+
+    def stop(self):
+        if self.arduino is not None:
+            self.arduino.write(b"stop")

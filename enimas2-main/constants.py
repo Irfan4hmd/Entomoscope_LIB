@@ -30,6 +30,31 @@ SENSOR_TO_BASE_PLATE_N = 70  # sensor to base plate at the LOWEST position, in m
 TRAVEL_LENGHT_S = 216
 SENSOR_TO_BASE_PLATE_S = 20
 
+# MacroStation: the same vertical Y axis as the PI2AI, plus a turntable on the
+# X socket. These are copied from the PI2AI and must be measured on the
+# MacroStation before use: they bound how deep the lens may go.
+TRAVEL_LENGHT_M = 50
+SENSOR_TO_BASE_PLATE_M = 25
+# (lead-screw pitch: ROTATION_HEIGHT_M, next to the other pitches below)
+
+# Turntable. The home switch is 0 deg, the end switch MACRO_END_SWITCH_ANGLE.
+# Steps per degree are measured between the two on every run, so the disk
+# radius and the drive ratio never need to be entered.
+MACRO_END_SWITCH_ANGLE = 270.0
+# Views taken on the way back from the end switch, in this order.
+MACRO_RETURN_ANGLES = (180.0, 90.0)
+# Every view is approached counter-clockwise, as both switches are, so the
+# backlash of the drive cancels. Clockwise moves overshoot by this much first;
+# it must be larger than the backlash.
+MACRO_ROTATION_OVERSHOOT_DEG = 5.0
+# Autofocus runs before the first view. Set True to refocus at every view.
+MACRO_AUTOFOCUS_EACH_VIEW = True
+# Pause after the turntable stops and before the picture, in seconds.
+MACRO_ROTATION_SETTLE = 0.5
+# Longest a single turntable command may take. Must exceed the firmware's
+# switch search budget (ROT_MAX_STEPS in servo.ino, about 80 s).
+ROTATION_REPLY_TIMEOUT = 120
+
 """
 lenght linear axis: 409mm
 lenght slide: 66mm
@@ -55,6 +80,7 @@ HELICON_PATH = "undefined"
 MICROSTEPS = 8
 ROTATION_HEIGHT = 10
 ROTATION_HEIGHT_N = 8   # measured: 8mm lead screw on this machine
+ROTATION_HEIGHT_M = ROTATION_HEIGHT_N   # MacroStation: assumed same screw as the PI2AI
 
 STACK_SPEED = 50
 

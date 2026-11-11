@@ -49,6 +49,7 @@ class Lens:
     base_focus_height_arducam_old: float = None
     base_focus_height_arducam: float = None
     base_focus_height_vaimaging: float = None
+    base_focus_height_macro: float = None
     magnification_factor: float = None
     scale: float = None
     scale_vaimaging: float = 1.0
